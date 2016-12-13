@@ -18,7 +18,7 @@ public abstract class Consumable {
 	
 	public List<Species> getConsumers() {
 		
-		return consumers;//
+		return consumers;
 		
 	}
 
