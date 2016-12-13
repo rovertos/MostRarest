@@ -1,0 +1,62 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	
+	background-color: #99ccff;
+	
+}
+
+.ccontrol {
+	
+	box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2), 0px 6px 20px 0px rgba(0,0,0,0.19) !important;
+	background-color: white;
+	background-repeat: no-repeat;
+	background-position: center;	
+	z-index: 30;
+	font-size: x-large;
+	font-weight: bold;
+	font-family: monospace;	
+	
+}
+
+.cgroup {
+	
+	padding: 0px;
+	position: absolute;
+	
+}
+
+.cnews {
+	
+	box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2), 0px 6px 20px 0px rgba(0,0,0,0.19) !important;
+	z-index: 20;
+	background-color: white;
+	background-repeat: no-repeat;
+	background-position: left;
+	font-size: x-large;
+	font-weight: bold;
+	font-family: monospace;
+	
+}
+
+.cpanel {
+	
+	box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2), 0px 6px 20px 0px rgba(0,0,0,0.19) !important;
+	z-index: 10;
+	
+}
+
+.cbar {
+
+	background-repeat: no-repeat;
+	background-position: center;
+	
+}
+
+.cstar, .ctrend {
+	
+	padding-bottom: 5px;
+	text-align: center;
+	
+}
+
