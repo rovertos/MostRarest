@@ -71,15 +71,15 @@ public class World {
 			
 			if (i == 0){
 				
-				creatureRarity.setValue(GlobalConstants.TOP_1);
+				creatureRarity.setValue(GlobalConstants.TOP_1 + worldSizeBonus);
 				
 			} else if (i < 2){
 				
-				creatureRarity.setValue(GlobalConstants.TOP_3);
+				creatureRarity.setValue(GlobalConstants.TOP_3 + worldSizeBonus);
 				
 			} else if (worldSizeBonus > 0 && i < creatureRarities.size() / 2){
 				
-				creatureRarity.setValue(GlobalConstants.TOP_HALF);
+				creatureRarity.setValue(GlobalConstants.TOP_HALF + worldSizeBonus);
 				
 			}
 			
@@ -91,7 +91,7 @@ public class World {
 					
 			for (WorldCreature worldCreature: creatureRarity.getWorldcreatures()){
 				
-				int rarity = creatureRarity.getValue() + worldCreature.getRarbonus() + worldSizeBonus;
+				int rarity = creatureRarity.getValue() + worldCreature.getRarbonus();
 				
 				worldCreature.setRarity(rarity);
 				
