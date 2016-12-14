@@ -16,8 +16,6 @@ public abstract class Consumable {
 	
 	private float gmult = 1;
 	
-	private int trend;
-	
 	public abstract String getId();
 	
 	public List<Species> getConsumers() {
@@ -59,28 +57,6 @@ public abstract class Consumable {
 	public void addGrowth(float growthShift){
 		
 		growth += growthShift;
-		
-	}
-	
-	public void increase(float growthOverload){
-		
-		this.trend = 1;
-		
-		this.setGrowth(growthOverload);
-		
-	}
-	
-	public void decrease(float growthOverload){
-		
-		this.trend = -1;
-		
-		this.setGrowth(-growthOverload);
-		
-	}	
-	
-	public int getTrend() {
-		
-		return trend;
 		
 	}
 

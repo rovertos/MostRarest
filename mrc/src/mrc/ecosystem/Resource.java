@@ -8,6 +8,8 @@ public class Resource extends Consumable {
 	
 	private float growthShift;
 	
+	private int trend;	
+	
 	public Resource(int index){
 		
 		this.index = index;
@@ -25,6 +27,32 @@ public class Resource extends Consumable {
 		return growthShift;
 		
 	}
+	
+	public void increase(float growthOverload){
+		
+		this.trend = 1;
+		
+		this.setAvailable(this.getAvailable() + 1);
+		
+		this.setGrowth(growthOverload);
+		
+	}
+	
+	public void decrease(float growthOverload){
+		
+		this.trend = -1;
+		
+		this.setAvailable(this.getAvailable() - 1);
+		
+		this.setGrowth(-growthOverload);
+		
+	}
+	
+	public int getTrend() {
+		
+		return trend;
+		
+	}	
 
 	public void setGrowthShift(float growthShift) {
 		

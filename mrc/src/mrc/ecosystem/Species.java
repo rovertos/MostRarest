@@ -2,6 +2,8 @@ package mrc.ecosystem;
 
 import java.util.List;
 
+import mrc.world.World;
+
 public class Species extends Consumable {
 
 	private List<Consumable> diet;
@@ -9,6 +11,8 @@ public class Species extends Consumable {
 	private String category;
 	
 	private int index;
+	
+	private int trend;
 	
 	public Species(String category, int index, int gbuf, float gmult){
 		
@@ -38,6 +42,36 @@ public class Species extends Consumable {
 	public void setDiet(List<Consumable> diet) {
 		
 		this.diet = diet;
+		
+	}
+	
+	public void increase(float growthOverload){
+		
+		this.trend = 1;
+		
+		this.setAvailable(this.getAvailable() + 1);
+		
+		World.shiftPopulation(this.getId(), 1, trend);
+		
+		this.setGrowth(growthOverload);
+		
+	}
+	
+	public void decrease(float growthOverload){
+		
+		this.trend = -1;
+		
+		this.setAvailable(this.getAvailable() - 1);
+		
+		World.shiftPopulation(this.getId(), -1, trend);
+		
+		this.setGrowth(-growthOverload);
+		
+	}
+	
+	public int getTrend() {
+		
+		return trend;
 		
 	}
 
