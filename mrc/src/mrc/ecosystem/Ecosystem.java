@@ -24,7 +24,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=3; i++){
 			
-			Resource resource = new Resource(i);
+			Resource resource = new Resource(i, GlobalConstants.A_GBUF);
 			
 			consumables.put(resource.getId(), resource);
 			
@@ -34,7 +34,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=7; i++){
 			
-			Herbivore herbivore = new Herbivore(i, GlobalConstants.B_GBUF, GlobalConstants.B_GMULT);
+			Herbivore herbivore = new Herbivore(i, GlobalConstants.B_GBUF, GlobalConstants.B_GMULT, GlobalConstants.B_RAR_BONUS);
 			
 			consumables.put(herbivore.getId(), herbivore);
 			
@@ -44,7 +44,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=15; i++){
 			
-			SmallPredator smallPredator = new SmallPredator(i, GlobalConstants.C_GBUF, GlobalConstants.C_GMULT);
+			SmallPredator smallPredator = new SmallPredator(i, GlobalConstants.C_GBUF, GlobalConstants.C_GMULT, GlobalConstants.C_RAR_BONUS);
 			
 			consumables.put(smallPredator.getId(), smallPredator);
 			
@@ -54,7 +54,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=7; i++){
 			
-			SuperPredator superPredator = new SuperPredator(i, GlobalConstants.D_GBUF, GlobalConstants.D_GMULT);
+			SuperPredator superPredator = new SuperPredator(i, GlobalConstants.D_GBUF, GlobalConstants.D_GMULT, GlobalConstants.D_RAR_BONUS);
 			
 			consumables.put(superPredator.getId(), superPredator);
 			
@@ -64,7 +64,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=2; i++){
 			
-			ApexCreature apex = new ApexCreature(i, GlobalConstants.E_GBUF, GlobalConstants.E_GMULT);
+			ApexCreature apex = new ApexCreature(i, GlobalConstants.E_GBUF, GlobalConstants.E_GMULT, GlobalConstants.E_RAR_BONUS);
 			
 			consumables.put(apex.getId(), apex);
 			

@@ -14,7 +14,11 @@ public class Species extends Consumable {
 	
 	private int trend;
 	
-	public Species(String category, int index, int gbuf, float gmult){
+	private float gmult;
+	
+	private int rarbonus;
+	
+	public Species(String category, int index, int gbuf, float gmult, int rarbonus){
 		
 		this.category = category;
 		
@@ -22,7 +26,9 @@ public class Species extends Consumable {
 		
 		this.setGbuf(gbuf);
 		
-		this.setGmult(gmult);
+		this.gmult = gmult;
+		
+		this.rarbonus = rarbonus;
 		
 	}
 	
@@ -51,7 +57,7 @@ public class Species extends Consumable {
 		
 		this.setAvailable(this.getAvailable() + 1);
 		
-		World.shiftPopulation(this.getId(), 1, trend);
+		World.shiftPopulation(this.getId(), 1, this.getRarbonus(), trend);
 		
 		this.setGrowth(growthOverload);
 		
@@ -63,7 +69,7 @@ public class Species extends Consumable {
 		
 		this.setAvailable(this.getAvailable() - 1);
 		
-		World.shiftPopulation(this.getId(), -1, trend);
+		World.shiftPopulation(this.getId(), -1, this.getRarbonus(), trend);
 		
 		this.setGrowth(-growthOverload);
 		
@@ -74,6 +80,24 @@ public class Species extends Consumable {
 		return trend;
 		
 	}
+
+	public int getRarbonus() {
+		
+		return rarbonus;
+		
+	}
+	
+	public float getGmult() {
+		
+		return gmult;
+		
+	}
+
+	public void setGmult(float gmult) {
+		
+		this.gmult = gmult;
+		
+	}	
 
 	public int getAvailableFoods(){
 		

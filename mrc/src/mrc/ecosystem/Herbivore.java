@@ -6,9 +6,9 @@ public class Herbivore extends Species {
 	
 	public static String category = "b";
 
-	public Herbivore(int index, int gbuf, float gmult) {
+	public Herbivore(int index, int gbuf, float gmult, int rarbonus) {
 		
-		super(category, index, gbuf, gmult);
+		super(category, index, gbuf, gmult, rarbonus);
 		
 	}
 	

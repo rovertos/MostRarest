@@ -13,9 +13,7 @@ public abstract class Consumable {
 	private float growth = 0;
 	
 	private float gbuf = 0;
-	
-	private float gmult = 1;
-	
+		
 	public abstract String getId();
 	
 	public List<Species> getConsumers() {
@@ -69,18 +67,6 @@ public abstract class Consumable {
 	public void setGbuf(float gbuf) {
 		
 		this.gbuf = gbuf;
-		
-	}	
-	
-	public float getGmult() {
-		
-		return gmult;
-		
-	}
-
-	public void setGmult(float gmult) {
-		
-		this.gmult = gmult;
 		
 	}
 	

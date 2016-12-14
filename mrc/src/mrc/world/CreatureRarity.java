@@ -1,88 +1,34 @@
 package mrc.world;
 
+import java.util.ArrayList;
+
 public class CreatureRarity {
 
-	private String id;
+	private int value;
 	
-	private int population;
+	private ArrayList<WorldCreature> worldCreatures = new ArrayList<WorldCreature>();
 	
-	private int rarity;
-	
-	private int trend;
-	
-	private int cost;
-	
-	private int gain;
-	
-	public CreatureRarity(String id){
+	public int getValue() {
 		
-		this.id = id;
+		return value;
 		
 	}
 
-	public String getId() {
+	public void setValue(int value) {
 		
-		return id;
-		
-	}
-
-	public int getPopulation() {
-		
-		return population;
+		this.value = value;
 		
 	}
 
-	public void setPopulation(int population) {
+	public ArrayList<WorldCreature> getWorldcreatures() {
 		
-		this.population = population;
-		
-	}
-
-	public int getRarity() {
-		
-		return rarity;
+		return worldCreatures;
 		
 	}
 
-	public void setRarity(int rarity) {
+	public void addWorldcreature(WorldCreature worldCreature) {
 		
-		this.rarity = rarity;
-		
-	}
-
-	public int getTrend() {
-		
-		return trend;
-		
-	}
-
-	public void setTrend(int trend) {
-		
-		this.trend = trend;
-		
-	}
-
-	public int getCost() {
-		
-		return cost;
-		
-	}
-
-	public void setCost(int cost) {
-		
-		this.cost = cost;
-		
-	}
-
-	public int getGain() {
-		
-		return gain;
-		
-	}
-
-	public void setGain(int gain) {
-		
-		this.gain = gain;
+		this.worldCreatures.add(worldCreature);
 		
 	}	
 	

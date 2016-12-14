@@ -4,9 +4,9 @@ import mrc.config.Logger;
 
 public class Carnivore extends Species {
 
-	public Carnivore(String category, int index, int gbuf, float gmult) {
+	public Carnivore(String category, int index, int gbuf, float gmult, int rarbonus) {
 		
-		super(category, index, gbuf, gmult);
+		super(category, index, gbuf, gmult, rarbonus);
 		
 	}
 	

@@ -8,11 +8,13 @@ public class Resource extends Consumable {
 	
 	private float growthShift;
 	
-	private int trend;	
+	private int trend;
 	
-	public Resource(int index){
+	public Resource(int index, int gbuf){
 		
 		this.index = index;
+		
+		this.setGbuf(gbuf);
 		
 	}
 	
