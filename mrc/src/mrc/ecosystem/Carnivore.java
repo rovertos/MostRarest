@@ -4,9 +4,9 @@ import mrc.config.Logger;
 
 public class Carnivore extends Species {
 
-	public Carnivore(String category, int index, int gbuf) {
+	public Carnivore(String category, int index, int gbuf, float gmult) {
 		
-		super(category, index, gbuf);
+		super(category, index, gbuf, gmult);
 		
 	}
 	
@@ -14,17 +14,9 @@ public class Carnivore extends Species {
 		
 		if (this.getAvailable() > 0){
 			
-			// CALCULATE PREDATOR BURDEN
-			
-			float predatorBurden = this.getPredatorBurden();
-			
-			// CALCULATE FOOD PLETHORA
-			
-			float foodPlethora = this.getFoodPlethora();
-			
 			// CALCULATE & ADD GROWTH SHIFT
 			
-			float growthShift = foodPlethora - predatorBurden;
+			float growthShift = (this.getGmult() * this.getFoodPlethora()) - this.getPredatorBurden();
 			
 			this.addGrowth(growthShift);
 			

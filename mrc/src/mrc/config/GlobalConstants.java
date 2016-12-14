@@ -2,7 +2,7 @@ package mrc.config;
 
 public class GlobalConstants {
 
-	public static int TOTAL_STARTING_RESOURCE = 33333;
+	// GROWTH BUFFERS
 	
 	public static int B_GBUF = 10;
 	
@@ -10,6 +10,16 @@ public class GlobalConstants {
 	
 	public static int D_GBUF = 30;
 	
-	public static int E_GBUF = 100;	
+	public static int E_GBUF = 100;
+	
+	// GROWTH MULTIPLIERS
+	
+	public static float B_GMULT = 2;
+	
+	public static int C_GMULT = 1;
+	
+	public static int D_GMULT = 1;
+	
+	public static int E_GMULT = 1;		
 	
 }

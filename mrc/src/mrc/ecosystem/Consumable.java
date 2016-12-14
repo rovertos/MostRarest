@@ -14,6 +14,10 @@ public abstract class Consumable {
 	
 	private float gbuf = 0;
 	
+	private float gmult = 1;
+	
+	private int trend;
+	
 	public abstract String getId();
 	
 	public List<Species> getConsumers() {
@@ -58,18 +62,70 @@ public abstract class Consumable {
 		
 	}
 	
+	public void increase(float growthOverload){
+		
+		this.trend = 1;
+		
+		this.setGrowth(growthOverload);
+		
+	}
+	
+	public void decrease(float growthOverload){
+		
+		this.trend = -1;
+		
+		this.setGrowth(-growthOverload);
+		
+	}	
+	
+	public int getTrend() {
+		
+		return trend;
+		
+	}
+
 	public float getGbuf() {
 		
 		return gbuf;
 		
 	}
 
-	public void setGbuf(int gbuf) {
+	public void setGbuf(float gbuf) {
 		
 		this.gbuf = gbuf;
 		
+	}	
+	
+	public float getGmult() {
+		
+		return gmult;
+		
+	}
+
+	public void setGmult(float gmult) {
+		
+		this.gmult = gmult;
+		
 	}
 	
+	public float getPredatorBurden(){
+		
+		float predatorBurden = 0;
+		
+		for (Species predator: this.getConsumers()){
+			
+			if (predator.getAvailable() > 0){
+				
+				predatorBurden += predator.getAvailable() / predator.getAvailableFoods();
+				
+			}
+			
+		}
+		
+		return predatorBurden;		
+		
+	}
+
 	public int getActiveConsumers(){
 		
 		int consumers = 0;

@@ -10,15 +10,15 @@ public class Species extends Consumable {
 	
 	private int index;
 	
-	private int trend;
-	
-	public Species(String category, int index, int gbuf){
+	public Species(String category, int index, int gbuf, float gmult){
 		
 		this.category = category;
 		
 		this.index = index;
 		
 		this.setGbuf(gbuf);
+		
+		this.setGmult(gmult);
 		
 	}
 	
@@ -40,32 +40,6 @@ public class Species extends Consumable {
 		this.diet = diet;
 		
 	}
-	
-	public void increase(float growthOverload){
-		
-		this.trend = 1;
-		
-	}
-	
-	public void decrease(float growthOverload){
-		
-		this.trend = -1;
-		
-		this.setGrowth(-growthOverload);
-		
-	}
-
-	public int getTrend() {
-		
-		return trend;
-		
-	}
-
-	public void setTrend(int trend) {
-		
-		this.trend = trend;
-		
-	}
 
 	public int getAvailableFoods(){
 		
@@ -82,24 +56,6 @@ public class Species extends Consumable {
 		return foodSources;
 		
 	}
-	
-	public float getPredatorBurden(){
-		
-		float predatorBurden = 0;
-		
-		for (Species predator: this.getConsumers()){
-			
-			if (predator.getAvailable() > 0){
-				
-				predatorBurden += predator.getAvailable() / predator.getAvailableFoods();
-				
-			}
-			
-		}
-		
-		return predatorBurden;		
-		
-	}	
 	
 	public float getFoodPlethora(){
 		

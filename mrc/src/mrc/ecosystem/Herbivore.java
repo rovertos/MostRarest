@@ -6,9 +6,9 @@ public class Herbivore extends Species {
 	
 	public static String category = "b";
 
-	public Herbivore(int index, int gbuf) {
+	public Herbivore(int index, int gbuf, float gmult) {
 		
-		super(category, index, gbuf);
+		super(category, index, gbuf, gmult);
 		
 	}
 	
@@ -16,17 +16,9 @@ public class Herbivore extends Species {
 		
 		if (this.getAvailable() > 0){
 			
-			// CALCULATE PREDATOR BURDEN
-			
-			float predatorBurden = this.getPredatorBurden();
-			
-			// CALCULATE FOOD PLETHORA
-			
-			float foodPlethora = this.getFoodPlethora();
-			
 			// CALCULATE & ADD GROWTH SHIFT
 			
-			float growthShift = foodPlethora - predatorBurden;
+			float growthShift = (this.getGmult() * this.getFoodPlethora()) - this.getPredatorBurden();
 			
 			this.addGrowth(growthShift);
 			

@@ -34,7 +34,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=7; i++){
 			
-			Herbivore herbivore = new Herbivore(i, GlobalConstants.B_GBUF);
+			Herbivore herbivore = new Herbivore(i, GlobalConstants.B_GBUF, GlobalConstants.B_GMULT);
 			
 			consumables.put(herbivore.getId(), herbivore);
 			
@@ -44,7 +44,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=15; i++){
 			
-			SmallPredator smallPredator = new SmallPredator(i, GlobalConstants.C_GBUF);
+			SmallPredator smallPredator = new SmallPredator(i, GlobalConstants.C_GBUF, GlobalConstants.C_GMULT);
 			
 			consumables.put(smallPredator.getId(), smallPredator);
 			
@@ -54,7 +54,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=7; i++){
 			
-			SuperPredator superPredator = new SuperPredator(i, GlobalConstants.D_GBUF);
+			SuperPredator superPredator = new SuperPredator(i, GlobalConstants.D_GBUF, GlobalConstants.D_GMULT);
 			
 			consumables.put(superPredator.getId(), superPredator);
 			
@@ -64,7 +64,7 @@ public class Ecosystem {
 		
 		for (int i=1; i<=2; i++){
 			
-			ApexCreature apex = new ApexCreature(i, GlobalConstants.E_GBUF);
+			ApexCreature apex = new ApexCreature(i, GlobalConstants.E_GBUF, GlobalConstants.E_GMULT);
 			
 			consumables.put(apex.getId(), apex);
 			
@@ -101,6 +101,56 @@ public class Ecosystem {
 			apex.setDiet(Nature.whatToEat(this, apex));
 			
 		}		
+		
+	}
+	
+	public void executeStep(){
+		
+		// EXECUTE STEP FOR CREATURES
+		
+		for (int i=0; i<apexCreatures.size(); i++){
+			
+			apexCreatures.get(i).executeStep(this);
+			
+		}
+		
+		for (int i=0; i<superPredators.size(); i++){
+			
+			superPredators.get(i).executeStep(this);
+			
+		}
+		
+		for (int i=0; i<smallPredators.size(); i++){
+			
+			superPredators.get(i).executeStep(this);
+			
+		}
+		
+		for (int i=0; i<herbivores.size(); i++){
+			
+			superPredators.get(i).executeStep(this);
+			
+		}
+		
+		// EXECUTE STEP FOR RESOURCES (WITH HEAL)
+		
+		float totalGrowthShift = 0;
+		
+		for (int i=0; i<resources.size(); i++){
+			
+			resources.get(i).executeStepA(this);
+			
+			totalGrowthShift += resources.get(i).getGrowthShift();
+			
+		}
+		
+		float heal = totalGrowthShift / (float)resources.size();
+		
+		for (int i=0; i<resources.size(); i++){
+			
+			resources.get(i).executeStepB(this, heal);
+			
+		}
 		
 	}
 	

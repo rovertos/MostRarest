@@ -4,9 +4,9 @@ public class ApexCreature extends Carnivore {
 
 	public static String category = "e";
 
-	public ApexCreature(int index, int gbuf) {
+	public ApexCreature(int index, int gbuf, float gmult) {
 		
-		super(category, index, gbuf);
+		super(category, index, gbuf, gmult);
 		
 		// TODO Auto-generated constructor stub
 		
