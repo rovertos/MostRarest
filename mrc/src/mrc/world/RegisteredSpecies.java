@@ -10,6 +10,8 @@ public class RegisteredSpecies implements Comparable<RegisteredSpecies>{
 	
 	private int worldPopulation;
 	
+	private int rarity;
+	
 	public RegisteredSpecies(Species species){
 				
 		this.order = species.getOrder();
@@ -51,6 +53,18 @@ public class RegisteredSpecies implements Comparable<RegisteredSpecies>{
 	public void setWorldPopulation(int worldPopulation) {
 		
 		this.worldPopulation = worldPopulation;
+		
+	}	
+
+	public int getRarity() {
+		
+		return rarity;
+		
+	}
+
+	public void setRarity(int rarity) {
+		
+		this.rarity = rarity;
 		
 	}
 
