@@ -1,104 +1,36 @@
 package mrc.world;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 
-import mrc.config.GlobalConstants;
+import mrc.ecosystem.FantasyPark;
+import mrc.json.FactoryJSON;
+import mrc.json.MrcResponseJSON;
+import mrc.player.Order;
+import mrc.player.Player;
 
 public class World {
 
-	private static ArrayList<WorldCreature> worldCreatures = new ArrayList<WorldCreature>();
+	public static HashMap<String, Player> players = new HashMap<String, Player>();
 	
-	private static ArrayList<CreatureRarity> creatureRarities = new ArrayList<CreatureRarity>();
-	
-	public static void shiftPopulation(String id, int populationShift, int rarityBonus, int trend){
+	public static MrcResponseJSON executeOrder(Order order){
 		
-		WorldCreature WorldCreature = new WorldCreature(id);
+		Player player = players.get(order.getPlayerName());
 		
-		WorldCreature.setRarbonus(rarityBonus);
+		FantasyPark fantasyPark = player.getFantasyPark();
 		
-		if (!worldCreatures.contains(id)){
-			
-			worldCreatures.add(WorldCreature);
-			
-		} else {
-			
-			WorldCreature = worldCreatures.get(worldCreatures.indexOf(WorldCreature));
-			
-		}
+		//...
 		
-		WorldCreature.setPopulation(WorldCreature.getPopulation() + populationShift);
+		MrcResponseJSON response = FactoryJSON.wrapResponse(player);
 		
-		WorldCreature.setTrend(WorldCreature.getTrend() + trend);
+		return response;
 		
 	}
 	
-	public static void calculateRarities(){
-		
-		creatureRarities.clear();
-		
-		Collections.sort(worldCreatures);
-		
-		int pTemp = 0;
-		
-		for (int i=0; i<worldCreatures.size(); i++){
-			
-			WorldCreature worldCreature = worldCreatures.get(i);
-			
-			CreatureRarity creatureRarity;
-			
-			if (creatureRarities.isEmpty() || worldCreature.getPopulation() > pTemp){
-				
-				creatureRarity = new CreatureRarity();
-				
-				pTemp = worldCreature.getPopulation();
-				
-			} else {
-				
-				creatureRarity = creatureRarities.get(creatureRarities.size()-1);
-				
-			}
-			
-			creatureRarity.addWorldcreature(worldCreature);			
-			
-		}		
-		
-		int worldSizeBonus = worldCreatures.size() / GlobalConstants.WORLD_DIVIDER;		
-		
-		for (int i=0; i<creatureRarities.size(); i++){
-			
-			CreatureRarity creatureRarity = creatureRarities.get(i);
-			
-			if (i == 0){
-				
-				creatureRarity.setValue(GlobalConstants.TOP_1 + worldSizeBonus);
-				
-			} else if (i < 2){
-				
-				creatureRarity.setValue(GlobalConstants.TOP_3 + worldSizeBonus);
-				
-			} else if (worldSizeBonus > 0 && i < creatureRarities.size() / 2){
-				
-				creatureRarity.setValue(GlobalConstants.TOP_HALF + worldSizeBonus);
-				
-			}
-			
-		}
-		
-		for (int i=0; i<creatureRarities.size(); i++){
-			
-			CreatureRarity creatureRarity = creatureRarities.get(i);
-					
-			for (WorldCreature worldCreature: creatureRarity.getWorldcreatures()){
-				
-				int rarity = creatureRarity.getValue() + worldCreature.getRarbonus();
-				
-				worldCreature.setRarity(rarity);
-				
-			}
-			
-		}
-		
-	}
 	
+	public static void main(String[] args) {
+
+		
+
+	}
+
 }

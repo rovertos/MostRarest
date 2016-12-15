@@ -5,43 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import mrc.ecosystem.Consumable;
 import mrc.ecosystem.Ecosystem;
 import mrc.ecosystem.Species;
 
 public class Nature {
-
-	public static List<Consumable> whatToEat(Ecosystem ecosystem, Species species){
-		
-		ArrayList<Consumable> prey = new ArrayList<Consumable>();
-		
-		String[] ids = Nature.diets.get(species.getId()).split(",");
-		
-		for (int i=0; i<ids.length; i++){
-									
-			prey.add(ecosystem.getConsumable(ids[i]));
-						
-		}
-				
-		return prey;
-					
-	}
-	
-	public static List<Species> whoPreysOnThis(Ecosystem ecosystem, Species species){
-		
-		ArrayList<Species> predators = new ArrayList<Species>();
-		
-		String[] ids = Nature.predators.get(species.getId()).split(",");
-		
-		for (int i=0; i<ids.length; i++){
-										
-				predators.add((Species)ecosystem.getConsumable(ids[i]));
-						
-		}
-		
-		return predators;
-		
-	}	
 	
 	private static HashMap<String, String> diets = new HashMap<String,String>();
 	
