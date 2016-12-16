@@ -8,13 +8,13 @@ public class FantasyWildlifeFund {
 
 	private static Bank bank;
 	
-	private static HashMap<String, RegisteredSpecies> populationRegistry = new HashMap<String, RegisteredSpecies>();
+	private static HashMap<String, ProtectedSpecies> populationRegistry = new HashMap<String, ProtectedSpecies>();
 	
 	public static void register(Population population){
 		
 		String speciesId = population.getSpecies().getId();
 		
-		RegisteredSpecies registered;
+		ProtectedSpecies registered;
 		
 		if (populationRegistry.containsKey(speciesId)){
 			
@@ -24,7 +24,7 @@ public class FantasyWildlifeFund {
 			
 		} else {
 			
-			registered = new RegisteredSpecies(population.getSpecies());
+			registered = new ProtectedSpecies(population.getSpecies());
 			
 			registered.setWorldPopulation(population.getTotal());
 			
