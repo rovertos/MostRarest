@@ -130,7 +130,7 @@ public class TheWild extends Ecosystem {
 				
 					int areaIndex = Integer.parseInt(assignments[k]);
 					
-					Population population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.NORTH);
+					Population population = new Population(carnivore, this, carnivore3Population, this.getArea(areaIndex), Location.NORTH);
 					
 					this.addNewPopulation(population);
 					
