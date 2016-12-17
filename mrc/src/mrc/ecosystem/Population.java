@@ -1,5 +1,7 @@
 package mrc.ecosystem;
 
+import mrc.geography.Area;
+import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
 
 public class Population {
@@ -12,13 +14,19 @@ public class Population {
 	
 	private Ecosystem ecosystem;
 	
-	public Population(Species species, Ecosystem ecosystem, int total){
+	private Area area;
+	
+	public Population(Species species, Ecosystem ecosystem, int total, Area area, Location location){
 		
 		this.species = species;
 		
 		this.ecosystem = ecosystem;
 		
 		this.total = total;
+		
+		this.area = area;
+		
+		area.settlePopulation(location, this);
 		
 		FantasyWildlifeFund.register(this);
 		
@@ -51,6 +59,12 @@ public class Population {
 	public int getShift() {
 		
 		return shift;
+		
+	}
+
+	public Area getArea() {
+		
+		return area;
 		
 	}	
 	

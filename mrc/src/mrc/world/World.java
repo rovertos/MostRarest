@@ -16,7 +16,11 @@ public class World {
 
 	public static HashMap<String, Player> players = new HashMap<String, Player>();
 	
+	public static TheWild theWild;
+	
 	public static void create(List<Robot> robots, List<Human> humans){
+		
+		theWild = new TheWild();
 		
 		for (Robot robot: robots){
 			

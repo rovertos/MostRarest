@@ -10,52 +10,161 @@ import mrc.ecosystem.Herbivore;
 import mrc.ecosystem.Population;
 import mrc.ecosystem.Resource;
 import mrc.ecosystem.Species;
+import mrc.geography.Location;
 
 public class TheWild extends Ecosystem {
 
 	private static HashMap<String, Species> knownSpecies = new HashMap<String, Species>();
 		
-	public void create(){
+	public void genesis(){
 		
 		ArrayList<Resource> resources = new ArrayList<Resource>();
 		
 		// FIRST, CREATE ALL KNOWN SPECIES AND THEIR POPULATIONS IN THE WILD
 		
-		for (int i=0; i<GlobalConstants.WILD_POPULATIONS.length; i++){
+		// INSTANTIATE POPULATIONS AND ASSIGN TO AREAS
+		
+		// Hebivores at Lvl 1
+		
+		int herbivorePopulation = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[1]);
+		
+		int lvl1index = 0;
+		
+		for (int i=0; i<GlobalConstants.AREAS_LVL_1.length; i++){
 			
-			int N = Integer.parseInt(GlobalConstants.SPECIES_PER_LEVEL[i]);
+			String conf = GlobalConstants.AREAS_LVL_1[i];
 			
-			for (int j=1; j<=N; j++){
+			String[] instances = conf.split(",");
+			
+			for (int j=0; j<instances.length; j++){
 				
-				if (i == 0){
+				Herbivore herbivore = new Herbivore(1, lvl1index++);
+				
+				TheWild.knownSpecies.put(herbivore.getId(), herbivore);
+								
+				String[] assignments = instances[i].split("-");
+				
+				for (int k=0; k<assignments.length; k++){
+				
+					int areaIndex = Integer.parseInt(assignments[k]);
 					
-					int wildPopulation = Integer.parseInt(GlobalConstants.WILD_POPULATIONS[i]);	
-					
-					Resource resource = new Resource(i, j, wildPopulation);
-					
-					resources.add(resource);
-					
-				} else if (i == 1){
-					
-					Herbivore herbivore = new Herbivore(i, j);
-					
-					TheWild.knownSpecies.put(herbivore.getId(), herbivore);
-					
-					int wildPopulation = Integer.parseInt(GlobalConstants.WILD_POPULATIONS[i]);
-					
-					Population population = new Population(herbivore, this, wildPopulation);
+					Population population = new Population(herbivore, this, herbivorePopulation, this.getArea(areaIndex), Location.SOUTH);
 					
 					this.addNewPopulation(population);
 					
-				} else {
+				}
+				
+			}
+			
+		}		
+		
+		// Carnivores at Lvl 2
+		
+		int carnivore2Population = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[2]);
+		
+		int lvl2index = 0;
+		
+		for (int i=0; i<GlobalConstants.AREAS_LVL_2.length; i++){
+			
+			String conf = GlobalConstants.AREAS_LVL_2[i];
+			
+			String[] instances = conf.split(",");
+			
+			for (int j=0; j<instances.length; j++){
+				
+				Carnivore carnivore = new Carnivore(2, lvl2index++);
+				
+				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
+								
+				String[] assignments = instances[i].split("-");
+				
+				for (int k=0; k<assignments.length; k++){
+				
+					int areaIndex = Integer.parseInt(assignments[k]);
 					
-					Carnivore carnivore = new Carnivore(i, j);
+					Population population;
 					
-					TheWild.knownSpecies.put(carnivore.getId(), carnivore);
+					if (instances.length == 1 || j == 1){
+						
+						population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.INNER);
+						
+					} else if (j < 1){
+						
+						population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.WEST);
+						
+					} else {
+						
+						population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.EAST);
+						
+					}
 					
-					int wildPopulation = Integer.parseInt(GlobalConstants.WILD_POPULATIONS[i]);
+					this.addNewPopulation(population);
 					
-					Population population = new Population(carnivore, this, wildPopulation);
+				}
+				
+			}
+			
+		}		
+		
+		// Carnivores at Lvl 3
+		
+		int carnivore3Population = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[3]);
+		
+		int lvl3index = 0;
+		
+		for (int i=0; i<GlobalConstants.AREAS_LVL_3.length; i++){
+			
+			String conf = GlobalConstants.AREAS_LVL_3[i];
+			
+			String[] instances = conf.split(",");
+			
+			for (int j=0; j<instances.length; j++){
+				
+				Carnivore carnivore = new Carnivore(3, lvl3index++);
+				
+				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
+								
+				String[] assignments = instances[i].split("-");
+				
+				for (int k=0; k<assignments.length; k++){
+				
+					int areaIndex = Integer.parseInt(assignments[k]);
+					
+					Population population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.NORTH);
+					
+					this.addNewPopulation(population);
+					
+				}
+				
+			}
+			
+		}		
+		
+		// Carnivores at Lvl 4
+		
+		int carnivore4Population = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[4]);
+		
+		int lvl4index = 0;
+		
+		for (int i=0; i<GlobalConstants.AREAS_LVL_4.length; i++){
+			
+			String conf = GlobalConstants.AREAS_LVL_4[i];
+			
+			String[] instances = conf.split(",");
+			
+			for (int j=0; j<instances.length; j++){
+				
+				Carnivore carnivore = new Carnivore(3, lvl3index++);
+				
+				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
+								
+				String[] assignments = instances[i].split("-");
+				
+				for (int k=0; k<assignments.length; k++){
+				
+					int areaIndex = Integer.parseInt(assignments[k]);
+					
+					Population population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.OVER);
 					
 					this.addNewPopulation(population);
 					
@@ -67,17 +176,15 @@ public class TheWild extends Ecosystem {
 		
 		// THEN DESTABILIZE THE WORLD ECOSYSTEM, TO CREATE DYNAMICS
 		
-		for (int i=0; i<GlobalConstants.INSTABILITIES.length; i++){
+		for (int i=0; i<GlobalConstants.INSTABILITIES_IN_THE_WILD.length; i++){
 			
-			String unstableSpeciesId = GlobalConstants.INSTABILITIES[i][0];
+			String unstableSpeciesId = GlobalConstants.INSTABILITIES_IN_THE_WILD[i][0];
 			
-			int unstablePopulationTotal = Integer.parseInt(GlobalConstants.INSTABILITIES[i][1]);
+			int unstablePopulationTotal = Integer.parseInt(GlobalConstants.INSTABILITIES_IN_THE_WILD[i][1]);
 			
 			this.getPopulation(unstableSpeciesId).setTotal(unstablePopulationTotal);
 			
 		}
-		
-		// FINALLY, LET NATURE DECIDE WHAT EACH SPECIES PREYS ON
 		
 	}
 	
