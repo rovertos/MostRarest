@@ -154,7 +154,7 @@ public class TheWild extends Ecosystem {
 			
 			for (int j=0; j<instances.length; j++){
 				
-				Carnivore carnivore = new Carnivore(3, lvl3index++);
+				Carnivore carnivore = new Carnivore(3, lvl4index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
 								
@@ -164,7 +164,7 @@ public class TheWild extends Ecosystem {
 				
 					int areaIndex = Integer.parseInt(assignments[k]);
 					
-					Population population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.OVER);
+					Population population = new Population(carnivore, this, carnivore4Population, this.getArea(areaIndex), Location.OVER);
 					
 					this.addNewPopulation(population);
 					
