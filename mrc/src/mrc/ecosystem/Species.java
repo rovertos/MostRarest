@@ -1,7 +1,5 @@
 package mrc.ecosystem;
 
-import java.util.List;
-
 import mrc.config.GlobalConstants;
 
 public class Species {
@@ -34,6 +32,6 @@ public class Species {
 		
 		return index;
 		
-	}
+	}	
 	
 }

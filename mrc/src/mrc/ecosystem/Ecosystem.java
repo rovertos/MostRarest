@@ -14,6 +14,8 @@ public class Ecosystem {
 	
 	private List<Area> areas;
 	
+	private List<Resource> resources;
+	
 	public Ecosystem(){
 		
 		this.areas = new ArrayList<Area>();
@@ -36,9 +38,13 @@ public class Ecosystem {
 		
 		// INSTANTIATE RESOURCES AND ASSIGN TO AREAS 
 		
-		int newPopulation = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[0]);
+		resources = new ArrayList<Resource>();
+		
+		int newAmount = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[0]);
 		
 		int lvl0index = 0;
+		
+		float vulnerability0Factor = Integer.parseInt(GlobalConstants.VULNERABLE_PERCENT[0]) / 100;		
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_0.length; i++){
 			
@@ -48,13 +54,53 @@ public class Ecosystem {
 			
 			for (int j=0; j<areasString.length; j++){
 				
-				Resource resource = new Resource(0, lvl0index++, newPopulation);
-				
 				int areaIndex = Integer.parseInt(areasString[j]);
 				
-				areas.get(areaIndex).spreadResource(resource);
+				Area area = areas.get(areaIndex);
+				
+				Resource resource = new Resource(0, lvl0index++, newAmount, area, vulnerability0Factor);
+				
+				resources.add(resource);
 				
 			}
+			
+		}
+		
+	}
+	
+	public void executeStep(){
+		
+		// First, Species eat and reproduce
+		
+		for (int i=GlobalConstants.LEVELS.length-1; i>0; i--){
+			
+			int pops = Integer.parseInt(GlobalConstants.POPS_PER_LEVEL[i]);
+			
+			for (int j=1; j<pops; j++){
+				
+				String id = GlobalConstants.LEVELS[i] + j;
+				
+				Population population = populations.get(id);
+				
+				population.executeStep();
+				
+			}
+			
+		}
+		
+		// Then, Resources heal
+		
+		int totalResourcesEaten = 0;
+		
+		for (Resource resource: resources){
+			
+			totalResourcesEaten += resource.getEatenThisStep();
+			
+		}
+		
+		for (Resource resource: resources){
+			
+			resource.heal(-1 * totalResourcesEaten / 3);
 			
 		}
 		
@@ -100,9 +146,9 @@ public class Ecosystem {
 	
 	public void print(){
 		
-		System.out.println("********** ECOSYSTEM **********");
+		System.out.println("...");
 		
-		System.out.println("A,OV,D,P,NO,D,P,WE,D,P,IN,D,P,EA,D,P,SO,D,P,UN,D,P");
+		System.out.println("AREA,OVER,POPULATION,SHIFT,NORTH,POPULATION,SHIFT,WEST,POPULATION,SHIFT,INNER,POPULATION,SHIFT,EAST,POPULATION,SHIFT,SOUTH,POPULATION,SHIFT,UNDER,POPULATION,SHIFT");
 		
 		for (int i=0; i<this.areas.size(); i++){
 			
@@ -120,17 +166,17 @@ public class Ecosystem {
 					
 					buff.append(((Population)population).getSpecies().getId() + ",");
 					
-					buff.append(area.getDiet(population).size() + ",");
+					buff.append(((Population)population).getTotal() + ",");
 					
-					buff.append(area.getPredators(population).size() + ",");
+					buff.append(((Population)population).getShift() + ",");
 					
 				} else if (population instanceof Resource) {
 					
 					buff.append(((Resource)population).getId() + ",");
 					
-					buff.append(area.getDiet(population).size() + ",");
+					buff.append(((Resource)population).getTotal() + ",");
 					
-					buff.append(area.getPredators(population).size() + ",");
+					buff.append(((Resource)population).getShift() + ",");
 					
 				} else {
 					

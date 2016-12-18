@@ -27,6 +27,14 @@ public class World {
 		
 		theWild.print();
 		
+		for (int i=0; i<10; i++){
+			
+			theWild.executeStep();
+			
+			theWild.print();
+			
+		}
+		
 		for (Robot robot: robots){
 			
 			
