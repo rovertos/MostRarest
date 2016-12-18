@@ -1,6 +1,5 @@
 package mrc.world;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import mrc.config.GlobalConstants;
@@ -8,17 +7,20 @@ import mrc.ecosystem.Carnivore;
 import mrc.ecosystem.Ecosystem;
 import mrc.ecosystem.Herbivore;
 import mrc.ecosystem.Population;
-import mrc.ecosystem.Resource;
 import mrc.ecosystem.Species;
 import mrc.geography.Location;
 
 public class TheWild extends Ecosystem {
 
 	private static HashMap<String, Species> knownSpecies = new HashMap<String, Species>();
+	
+	public TheWild(){
+		
+		super();
+		
+	}
 		
 	public void genesis(){
-		
-		ArrayList<Resource> resources = new ArrayList<Resource>();
 		
 		// FIRST, CREATE ALL KNOWN SPECIES AND THEIR POPULATIONS IN THE WILD
 		
@@ -34,25 +36,19 @@ public class TheWild extends Ecosystem {
 			
 			String conf = GlobalConstants.AREAS_LVL_1[i];
 			
-			String[] instances = conf.split(",");
+			String[] areas = conf.split(",");
 			
-			for (int j=0; j<instances.length; j++){
+			for (int j=0; j<areas.length; j++){
 				
 				Herbivore herbivore = new Herbivore(1, lvl1index++);
 				
 				TheWild.knownSpecies.put(herbivore.getId(), herbivore);
-								
-				String[] assignments = instances[i].split("-");
+												
+				int areaIndex = Integer.parseInt(areas[j]);
 				
-				for (int k=0; k<assignments.length; k++){
+				Population population = new Population(herbivore, this, herbivorePopulation, this.getArea(areaIndex), Location.SOUTH);
 				
-					int areaIndex = Integer.parseInt(assignments[k]);
-					
-					Population population = new Population(herbivore, this, herbivorePopulation, this.getArea(areaIndex), Location.SOUTH);
-					
-					this.addNewPopulation(population);
-					
-				}
+				this.addNewPopulation(population);
 				
 			}
 			
@@ -68,39 +64,33 @@ public class TheWild extends Ecosystem {
 			
 			String conf = GlobalConstants.AREAS_LVL_2[i];
 			
-			String[] instances = conf.split(",");
+			String[] areas = conf.split(",");
 			
-			for (int j=0; j<instances.length; j++){
+			for (int j=0; j<areas.length; j++){
 				
 				Carnivore carnivore = new Carnivore(2, lvl2index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
-								
-				String[] assignments = instances[i].split("-");
+												
+				int areaIndex = Integer.parseInt(areas[j]);
 				
-				for (int k=0; k<assignments.length; k++){
+				Population population;
 				
-					int areaIndex = Integer.parseInt(assignments[k]);
+				if (areas.length == 1 || j == 1){
 					
-					Population population;
+					population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.INNER);
 					
-					if (instances.length == 1 || j == 1){
-						
-						population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.INNER);
-						
-					} else if (j < 1){
-						
-						population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.WEST);
-						
-					} else {
-						
-						population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.EAST);
-						
-					}
+				} else if (j < 1){
 					
-					this.addNewPopulation(population);
+					population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.WEST);
+					
+				} else {
+					
+					population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.EAST);
 					
 				}
+				
+				this.addNewPopulation(population);
 				
 			}
 			
@@ -116,25 +106,19 @@ public class TheWild extends Ecosystem {
 			
 			String conf = GlobalConstants.AREAS_LVL_3[i];
 			
-			String[] instances = conf.split(",");
+			String[] areas = conf.split(",");
 			
-			for (int j=0; j<instances.length; j++){
+			for (int j=0; j<areas.length; j++){
 				
 				Carnivore carnivore = new Carnivore(3, lvl3index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
-								
-				String[] assignments = instances[i].split("-");
 				
-				for (int k=0; k<assignments.length; k++){
+				int areaIndex = Integer.parseInt(areas[j]);
 				
-					int areaIndex = Integer.parseInt(assignments[k]);
-					
-					Population population = new Population(carnivore, this, carnivore3Population, this.getArea(areaIndex), Location.NORTH);
-					
-					this.addNewPopulation(population);
-					
-				}
+				Population population = new Population(carnivore, this, carnivore3Population, this.getArea(areaIndex), Location.NORTH);
+				
+				this.addNewPopulation(population);
 				
 			}
 			
@@ -150,25 +134,19 @@ public class TheWild extends Ecosystem {
 			
 			String conf = GlobalConstants.AREAS_LVL_4[i];
 			
-			String[] instances = conf.split(",");
+			String[] areas = conf.split(",");
 			
-			for (int j=0; j<instances.length; j++){
+			for (int j=0; j<areas.length; j++){
 				
-				Carnivore carnivore = new Carnivore(3, lvl4index++);
+				Carnivore carnivore = new Carnivore(4, lvl4index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
-								
-				String[] assignments = instances[i].split("-");
 				
-				for (int k=0; k<assignments.length; k++){
+				int areaIndex = Integer.parseInt(areas[j]);
 				
-					int areaIndex = Integer.parseInt(assignments[k]);
-					
-					Population population = new Population(carnivore, this, carnivore4Population, this.getArea(areaIndex), Location.OVER);
-					
-					this.addNewPopulation(population);
-					
-				}
+				Population population = new Population(carnivore, this, carnivore4Population, this.getArea(areaIndex), Location.OVER);
+				
+				this.addNewPopulation(population);
 				
 			}
 			

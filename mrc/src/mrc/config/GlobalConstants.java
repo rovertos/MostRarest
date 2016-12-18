@@ -8,7 +8,7 @@ public class GlobalConstants {
 	
 	public static String[][] INSTABILITIES_IN_THE_WILD = {{"b3","4"},{"c4","3"}};	
 	
-	public static String[] AREAS_LVL_0 = {"0-1-2","2-3-4","4-5-6"};
+	public static String[] AREAS_LVL_0 = {"1","3","5"};
 	
 	public static String[] AREAS_LVL_1 = {"0","1","2","3","4","5","6"};
 	
@@ -17,6 +17,8 @@ public class GlobalConstants {
 	public static String[] AREAS_LVL_3 = {"0","1","2","3","4","5","6"};
 	
 	public static String[] AREAS_LVL_4 = {"1","5"};
+	
+	public static int NUMBER_OF_ROBOTS = 0;
 	
 	// TEST CONGIG DATA <END>
 	

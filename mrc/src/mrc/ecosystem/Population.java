@@ -4,7 +4,7 @@ import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
 
-public class Population {
+public class Population implements Countable {
 	
 	private int total;
 	

@@ -10,8 +10,6 @@ public class Species {
 	
 	private int index;
 	
-	private List<Carnivore> predators; 
-	
 	public Species(int level, int index){
 		
 		this.level = level;
@@ -37,17 +35,5 @@ public class Species {
 		return index;
 		
 	}
-
-	public List<Carnivore> getPredators() {
-		
-		return predators;
-		
-	}
-
-	public void setPredators(List<Carnivore> predators) {
-		
-		this.predators = predators;
-		
-	}	
 	
 }

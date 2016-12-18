@@ -2,13 +2,15 @@ package mrc.ecosystem;
 
 import mrc.config.GlobalConstants;
 
-public class Resource {
+public class Resource implements Countable {
 
 	private int level;
 	
 	private int index;
 	
 	private int total;
+	
+	private int shift;
 	
 	public Resource(int level, int index, int total){
 		
@@ -29,6 +31,12 @@ public class Resource {
 	public int getTotal() {
 		
 		return total;
+		
+	}
+
+	public int getShift() {
+		
+		return shift;
 		
 	}	
 	

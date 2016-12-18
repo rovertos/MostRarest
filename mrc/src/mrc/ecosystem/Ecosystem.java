@@ -12,8 +12,6 @@ public class Ecosystem {
 	
 	private HashMap<String, Population> populations = new HashMap<String, Population>();
 	
-	private List<Resource> resources;
-	
 	private List<Area> areas;
 	
 	public Ecosystem(){
@@ -46,21 +44,15 @@ public class Ecosystem {
 			
 			String conf = GlobalConstants.AREAS_LVL_0[i];
 			
-			String[] instances = conf.split(",");
+			String[] areasString = conf.split(",");
 			
-			for (int j=0; j<instances.length; j++){
+			for (int j=0; j<areasString.length; j++){
 				
 				Resource resource = new Resource(0, lvl0index++, newPopulation);
 				
-				String[] assignments = instances[i].split("-");
+				int areaIndex = Integer.parseInt(areasString[j]);
 				
-				for (int k=0; k<assignments.length; k++){
-				
-					int areaIndex = Integer.parseInt(assignments[k]);
-					
-					areas.get(areaIndex).getResources().add(resource);
-				
-				}
+				areas.get(areaIndex).spreadResource(resource);
 				
 			}
 			
@@ -106,15 +98,51 @@ public class Ecosystem {
 		
 	}
 	
-	public List<Resource> getResources() {
+	public void print(){
 		
-		return resources;
+		System.out.println("********** ECOSYSTEM **********");
 		
-	}
+		System.out.println("A,OV,D,P,NO,D,P,WE,D,P,IN,D,P,EA,D,P,SO,D,P,UN,D,P");
+		
+		for (int i=0; i<this.areas.size(); i++){
+			
+			StringBuffer buff = new StringBuffer();
+			
+			buff.append(i + ",");
+			
+			Area area = this.areas.get(i);
+			
+			for (Location location: Location.values()){
+				
+				Countable population = area.getPopulationMap().get(location);
+				
+				if (population instanceof Population){
+					
+					buff.append(((Population)population).getSpecies().getId() + ",");
+					
+					buff.append(area.getDiet(population).size() + ",");
+					
+					buff.append(area.getPredators(population).size() + ",");
+					
+				} else if (population instanceof Resource) {
+					
+					buff.append(((Resource)population).getId() + ",");
+					
+					buff.append(area.getDiet(population).size() + ",");
+					
+					buff.append(area.getPredators(population).size() + ",");
+					
+				} else {
+					
+					buff.append("__,_,_,");
+					
+				}
 
-	public void setResources(List<Resource> resources) {
-		
-		this.resources = resources;
+			}
+			
+			System.out.println(buff.substring(0, buff.length()-1));
+			
+		}
 		
 	}
 	

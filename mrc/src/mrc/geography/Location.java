@@ -12,6 +12,8 @@ public enum Location {
 	
 	EAST,
 	
-	SOUTH
+	SOUTH,
+	
+	UNDER
 	
 }

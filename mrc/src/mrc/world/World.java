@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mrc.config.GlobalConstants;
 import mrc.ecosystem.FantasyPark;
 import mrc.json.FactoryJSON;
 import mrc.json.MrcResponseJSON;
@@ -21,6 +22,10 @@ public class World {
 	public static void create(List<Robot> robots, List<Human> humans){
 		
 		theWild = new TheWild();
+		
+		theWild.genesis();
+		
+		theWild.print();
 		
 		for (Robot robot: robots){
 			
@@ -57,7 +62,7 @@ public class World {
 		
 		ArrayList<Human> humans = new ArrayList<Human>();
 		
-		for (int i=1; i<=10; i++){
+		for (int i=1; i<=GlobalConstants.NUMBER_OF_ROBOTS; i++){
 			
 			Robot robot = new Robot("R" + i);
 			
