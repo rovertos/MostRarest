@@ -7,6 +7,7 @@ import java.util.List;
 import mrc.config.GlobalConstants;
 import mrc.geography.Area;
 import mrc.geography.Location;
+import mrc.util.Logger;
 
 public class Ecosystem {
 	
@@ -79,7 +80,7 @@ public class Ecosystem {
 			for (int j=1; j<pops; j++){
 				
 				String id = GlobalConstants.LEVELS[i] + j;
-				
+								
 				Population population = populations.get(id);
 				
 				population.executeStep();
@@ -145,50 +146,92 @@ public class Ecosystem {
 	}
 	
 	public void print(){
+				
+		Logger log = new Logger();
 		
-		System.out.println("...");
+		log.setTabLength(15);
 		
-		System.out.println("AREA,OVER,POPULATION,SHIFT,NORTH,POPULATION,SHIFT,WEST,POPULATION,SHIFT,INNER,POPULATION,SHIFT,EAST,POPULATION,SHIFT,SOUTH,POPULATION,SHIFT,UNDER,POPULATION,SHIFT");
+		String separator = log.getSeparator(" ", "-", 23);
+		
+		System.out.println(separator);
+		
+		System.out.println("");
+		
+		StringBuffer buf = new StringBuffer();
+		
+		// System.getProperty("line.separator")
+		
+		buf.append(log.getPrettyPrint("OVER:"));
 		
 		for (int i=0; i<this.areas.size(); i++){
 			
-			StringBuffer buff = new StringBuffer();
+			buf.append(log.getPrettyPrint(""));
 			
-			buff.append(i + ",");
+			buf.append(log.getPrettyPrint(areas.get(i), Location.OVER));
 			
-			Area area = this.areas.get(i);
-			
-			for (Location location: Location.values()){
-				
-				Countable population = area.getPopulationMap().get(location);
-				
-				if (population instanceof Population){
-					
-					buff.append(((Population)population).getSpecies().getId() + ",");
-					
-					buff.append(((Population)population).getTotal() + ",");
-					
-					buff.append(((Population)population).getShift() + ",");
-					
-				} else if (population instanceof Resource) {
-					
-					buff.append(((Resource)population).getId() + ",");
-					
-					buff.append(((Resource)population).getTotal() + ",");
-					
-					buff.append(((Resource)population).getShift() + ",");
-					
-				} else {
-					
-					buff.append("__,_,_,");
-					
-				}
-
-			}
-			
-			System.out.println(buff.substring(0, buff.length()-1));
+			buf.append(log.getPrettyPrint(""));
 			
 		}
+		
+		buf.append(System.getProperty("line.separator"));
+		
+		buf.append(log.getPrettyPrint("NORTH:"));
+		
+		for (int i=0; i<this.areas.size(); i++){
+			
+			buf.append(log.getPrettyPrint(""));
+			
+			buf.append(log.getPrettyPrint(areas.get(i), Location.NORTH));
+			
+			buf.append(log.getPrettyPrint(""));
+			
+		}		
+		
+		buf.append(System.getProperty("line.separator"));
+		
+		buf.append(log.getPrettyPrint("W/IN/E:"));
+		
+		for (int i=0; i<this.areas.size(); i++){
+			
+			buf.append(log.getPrettyPrint(areas.get(i), Location.WEST));
+			
+			buf.append(log.getPrettyPrint(areas.get(i), Location.INNER));
+			
+			buf.append(log.getPrettyPrint(areas.get(i), Location.EAST));
+			
+		}
+		
+		buf.append(System.getProperty("line.separator"));
+		
+		buf.append(log.getPrettyPrint("SOUTH:"));
+		
+		for (int i=0; i<this.areas.size(); i++){
+			
+			buf.append(log.getPrettyPrint(""));
+			
+			buf.append(log.getPrettyPrint(areas.get(i), Location.SOUTH));
+			
+			buf.append(log.getPrettyPrint(""));
+			
+		}
+		
+		buf.append(System.getProperty("line.separator"));
+		
+		buf.append(log.getPrettyPrint("UNDER:"));
+		
+		for (int i=0; i<this.areas.size(); i++){
+			
+			buf.append(log.getPrettyPrint(""));
+			
+			buf.append(log.getPrettyPrint(areas.get(i), Location.UNDER));
+			
+			buf.append(log.getPrettyPrint(""));
+			
+		}
+		
+		System.out.println(buf.toString());
+		
+		System.out.println(separator);
 		
 	}
 	
