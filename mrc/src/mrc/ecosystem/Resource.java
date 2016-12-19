@@ -87,9 +87,9 @@ public class Resource implements Countable {
 
 	public int getDueShare(Population predator) {
 		
-		int predatorPopulation = predator.getTotal() / predator.getAvailableFoods();
+		float predatorPopulation = predator.getTotal() / predator.getAvailableFoods();
 		
-		int competitionTotal = 0;
+		float competitionTotal = 0;
 		
 		for (Population population: area.getPredators(this)){
 			
@@ -105,7 +105,7 @@ public class Resource implements Countable {
 		
 		float competitionFactor = predatorPopulation / competitionTotal;
 		
-		return (int) (total * vulnerabilityFactor * competitionFactor);
+		return Math.round(total * vulnerabilityFactor * competitionFactor);
 		
 	}
 

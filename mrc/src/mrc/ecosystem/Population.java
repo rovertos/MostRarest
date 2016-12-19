@@ -1,8 +1,5 @@
 package mrc.ecosystem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
@@ -23,13 +20,13 @@ public class Population implements Countable {
 	
 	private float hungerFactor;
 	
-	private int eatAmount;
+	private float eatAmount;
 	
 	private float vulnerabilityFactor;
 	
 	private float growthFactor;
 	
-	public Population(Species species, Ecosystem ecosystem, int total, Area area, Location location, float hungerFactor, int eatAmount, float vulnerabilityFactor, float growthFactor){
+	public Population(Species species, Ecosystem ecosystem, int total, Area area, Location location, float hungerFactor, float eatAmount, float vulnerabilityFactor, float growthFactor){
 		
 		this.species = species;
 		
@@ -53,7 +50,7 @@ public class Population implements Countable {
 		
 	}
 	
-	public void executeStep(){
+	public void executeStep(StringBuffer buf){
 		
 		int survivors = total - eatenThisStep;
 		
@@ -61,11 +58,15 @@ public class Population implements Countable {
 		
 		int amountLeftToEat = (int) (hungry * eatAmount);
 		
+		buf.append(this.getSpecies().getId() + ":" + survivors + " => ");
+		
 		// FIRST CONSUME
 			
 		for (Countable countable: this.getArea().getDiet(this)){
 			
 			int dueShare = countable.getDueShare(this);
+			
+			buf.append(countable.getId() + "-" + dueShare + ", ");
 			
 			countable.eaten(dueShare);
 			
@@ -73,13 +74,15 @@ public class Population implements Countable {
 			
 		}
 		
+		buf.setLength(buf.length() - 2);
+		
 		// TODO: TOTALLY POSSIBLE amountLeftToEat IS NEGATIVE, NEED TO FIX (?)
 		
 		if (amountLeftToEat < 0)
 			
 			amountLeftToEat = 0;
 		
-		int starvedToDeath = amountLeftToEat / eatAmount;
+		int starvedToDeath =  (int) (amountLeftToEat / eatAmount);
 		
 		survivors = survivors - starvedToDeath;
 		
@@ -89,11 +92,19 @@ public class Population implements Countable {
 		
 		this.shift = newTotal - total;
 		
+		buf.append(" => " + (-starvedToDeath) + "[" + amountLeftToEat + "] => " + newTotal + "(" + this.shift + "). ");
+		
 		this.total = newTotal;
 		
 		this.eatenThisStep = 0;
 		
 		FantasyWildlifeFund.register(this);
+		
+	}
+	
+	public String getId(){
+		
+		return this.species.getId();
 		
 	}
 	
@@ -157,13 +168,13 @@ public class Population implements Countable {
 		
 	}	
 
-	public int getEatAmount() {
+	public float getEatAmount() {
 		
 		return eatAmount;
 		
 	}
 
-	public void setEatAmount(int eatAmount) {
+	public void setEatAmount(float eatAmount) {
 		
 		this.eatAmount = eatAmount;
 		
@@ -171,13 +182,13 @@ public class Population implements Countable {
 
 	public int getDueShare(Population predator) {
 		
-		int predatorPopulation = predator.getTotal() / predator.getAvailableFoods();
+		float predatorPopulation = predator.getTotal() / predator.getAvailableFoods();
 		
-		int competitionTotal = 0;
+		float competitionTotal = 0;
 		
 		for (Population population: area.getPredators(this)){
 			
-			competitionTotal += (population.getTotal() / population.getAvailableFoods());
+			competitionTotal += population.getTotal() / population.getAvailableFoods();
 			
 		}
 		
@@ -189,7 +200,7 @@ public class Population implements Countable {
 		
 		float competitionFactor = predatorPopulation / competitionTotal;
 		
-		return (int) (total * vulnerabilityFactor * competitionFactor);
+		return Math.round(total * vulnerabilityFactor * competitionFactor);
 		
 	}
 

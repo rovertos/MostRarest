@@ -1,8 +1,6 @@
 package mrc.util;
 
 import mrc.ecosystem.Countable;
-import mrc.ecosystem.Population;
-import mrc.ecosystem.Resource;
 import mrc.geography.Area;
 import mrc.geography.Location;
 
@@ -16,9 +14,7 @@ public class Logger {
 		
 			Countable countable = area.getPopulationMap().get(location);
 			
-			String id = countable instanceof Population? ((Population)countable).getSpecies().getId() : ((Resource)countable).getId();
-			
-			String areatrc = id + ":" + countable.getTotal() + "(" + countable.getShift() + ")";
+			String areatrc = countable.getId() + ":" + countable.getTotal() + "(" + countable.getShift() + ")";
 			
 			return getPrettyPrint(areatrc);
 		

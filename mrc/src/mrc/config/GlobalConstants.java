@@ -14,11 +14,12 @@ public class GlobalConstants {
 	
 	public static String[] VULNERABLE_PERCENT =		{"10",		"10",		"10",		"10",		"0"};
 	
-	public static String[] GROWTH_PERCENT = 		{".",		"10",		"10",		"10",		"10"};
+	public static String[] GROWTH_PERCENT = 		{".",		"110",		"110",		"110",		"110"};
 	
 	// ...
 	
-	public static String[][] INSTABILITIES_IN_THE_WILD = {{"b3","40"},{"c4","30"}};		
+	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"b3","40"},{"c4","30"}};
+	public static String[][] INSTABILITIES_IN_THE_WILD = {};
 	
 	public static String[] AREAS_LVL_0 = {"1","3","5"};
 	

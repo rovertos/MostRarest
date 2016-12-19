@@ -32,13 +32,13 @@ public class TheWild extends Ecosystem {
 		
 		int lvl1index = 0;
 		
-		float hunger1Factor = Integer.parseInt(GlobalConstants.HUNGRY_PERCENT[1]) / 100;
+		float hunger1Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[1]) / 100;
 		
-		int eat1Amount = Integer.parseInt(GlobalConstants.EAT_AMOUNT[1]);		
+		float eat1Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[1]);
 		
-		float vulnerability1Factor = Integer.parseInt(GlobalConstants.VULNERABLE_PERCENT[1]) / 100;
+		float vulnerability1Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[1]) / 100;
 		
-		float growth1Factor = Integer.parseInt(GlobalConstants.GROWTH_PERCENT[1]) / 100;
+		float growth1Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[1]) / 100;
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_1.length; i++){
 			
@@ -68,13 +68,13 @@ public class TheWild extends Ecosystem {
 		
 		int lvl2index = 0;
 		
-		float hunger2Factor = Integer.parseInt(GlobalConstants.HUNGRY_PERCENT[2]) / 100;
+		float hunger2Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[2]) / 100;
 		
-		int eat2Amount = Integer.parseInt(GlobalConstants.EAT_AMOUNT[2]);		
+		float eat2Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[2]);		
 
-		float vulnerability2Factor = Integer.parseInt(GlobalConstants.VULNERABLE_PERCENT[2]) / 100;	
+		float vulnerability2Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[2]) / 100;	
 		
-		float growth2Factor = Integer.parseInt(GlobalConstants.GROWTH_PERCENT[2]) / 100;		
+		float growth2Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[2]) / 100;		
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_2.length; i++){
 			
@@ -118,13 +118,13 @@ public class TheWild extends Ecosystem {
 		
 		int lvl3index = 0;
 		
-		float hunger3Factor = Integer.parseInt(GlobalConstants.HUNGRY_PERCENT[3]) / 100;
+		float hunger3Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[3]) / 100;
 		
-		int eat3Amount = Integer.parseInt(GlobalConstants.EAT_AMOUNT[3]);		
+		float eat3Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[3]);		
 		
-		float vulnerability3Factor = Integer.parseInt(GlobalConstants.VULNERABLE_PERCENT[3]) / 100;		
+		float vulnerability3Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[3]) / 100;		
 		
-		float growth3Factor = Integer.parseInt(GlobalConstants.GROWTH_PERCENT[3]) / 100;	
+		float growth3Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[3]) / 100;	
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_3.length; i++){
 			
@@ -154,13 +154,13 @@ public class TheWild extends Ecosystem {
 		
 		int lvl4index = 0;
 		
-		float hunger4Factor = Integer.parseInt(GlobalConstants.HUNGRY_PERCENT[4]) / 100;
+		float hunger4Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[4]) / 100;
 		
-		int eat4Amount = Integer.parseInt(GlobalConstants.EAT_AMOUNT[4]);		
+		float eat4Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[4]);		
 		
-		float vulnerability4Factor = Integer.parseInt(GlobalConstants.VULNERABLE_PERCENT[4]) / 100;		
+		float vulnerability4Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[4]) / 100;		
 		
-		float growth4Factor = Integer.parseInt(GlobalConstants.GROWTH_PERCENT[4]) / 100;		
+		float growth4Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[4]) / 100;		
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_4.length; i++){
 			

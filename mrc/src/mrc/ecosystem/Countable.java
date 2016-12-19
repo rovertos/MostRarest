@@ -2,6 +2,8 @@ package mrc.ecosystem;
 
 public interface Countable {
 
+	public String getId();
+	
 	public int getTotal();
 	
 	public int getShift();

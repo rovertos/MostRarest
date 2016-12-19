@@ -45,7 +45,7 @@ public class Ecosystem {
 		
 		int lvl0index = 0;
 		
-		float vulnerability0Factor = Integer.parseInt(GlobalConstants.VULNERABLE_PERCENT[0]) / 100;		
+		float vulnerability0Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[0]) / 100;		
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_0.length; i++){
 			
@@ -72,20 +72,24 @@ public class Ecosystem {
 	public void executeStep(){
 		
 		// First, Species eat and reproduce
-		
+				
 		for (int i=GlobalConstants.LEVELS.length-1; i>0; i--){
+
+			StringBuffer buf = new StringBuffer();
 			
 			int pops = Integer.parseInt(GlobalConstants.POPS_PER_LEVEL[i]);
 			
-			for (int j=1; j<pops; j++){
+			for (int j=0; j<pops; j++){
 				
 				String id = GlobalConstants.LEVELS[i] + j;
 								
 				Population population = populations.get(id);
 				
-				population.executeStep();
+				population.executeStep(buf);
 				
 			}
+						
+			System.out.println(buf.toString());
 			
 		}
 		
@@ -101,7 +105,7 @@ public class Ecosystem {
 		
 		for (Resource resource: resources){
 			
-			resource.heal(-1 * totalResourcesEaten / 3);
+			resource.heal(Math.round((float)totalResourcesEaten / 3));
 			
 		}
 		
