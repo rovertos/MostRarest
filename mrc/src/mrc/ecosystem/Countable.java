@@ -50,17 +50,17 @@ public abstract class Countable {
 		
 			System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
 			
-			float otherPredatorShare = 0;
+			float sharesClaimedByOthers = 0;
 			
 			for (Population predator: this.area.getPredators(this)){
 				
 				if (!predator.getId().equals(askingPredator.getId()))
 				
-					otherPredatorShare += predator.giveClaimForShare(this);
+					sharesClaimedByOthers += predator.giveClaimForShare(this);
 				
 			}
 			
-			float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + otherPredatorShare));
+			float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + sharesClaimedByOthers));
 			
 			lastGivenShares.put(askingPredator.getId(), new Float(dueShare));
 			

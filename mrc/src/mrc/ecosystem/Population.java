@@ -90,17 +90,17 @@ public class Population extends Countable {
 		
 		System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share");
 		
-		float otherClaimedShares = 0;
+		float dueSharesFromOthers = 0;
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
 			if (!prey.getId().equals(askingPrey.getId()))
 			
-				otherClaimedShares += prey.giveDueShare(this);
+				dueSharesFromOthers += prey.giveDueShare(this);
 			
 		}
 		
-		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + otherClaimedShares));
+		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + dueSharesFromOthers));
 		
 		System.out.println(this.getId() + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId());
 		
