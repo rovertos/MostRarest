@@ -61,15 +61,10 @@ public class Population extends Countable {
 	
 	public float getGrowthFactor(){
 		
-		System.out.println(this.getId() + " CALCULATING GROWTH FACTOR: ");
+		System.out.println("********************************");		
+		System.out.println("CALCULATING GROWTH FACTOR FOR " + this.getId());
 		
 		float growthFactor = 0;
-		
-		for (Population predator: this.area.getPredators(this)){
-			
-			growthFactor -= this.giveDueShare(predator);
-			
-		}
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
@@ -77,39 +72,39 @@ public class Population extends Countable {
 			
 		}
 		
+		for (Population predator: this.area.getPredators(this)){
+			
+			Float share = lastGivenShares.get(predator.getId());
+			
+			growthFactor -= share.floatValue();
+			
+		}
+		
+		lastGivenShares.clear();
+		
 		return growthFactor;
 				
 	}
 	
-	public float giveDueShare(Countable askingPredator){
+	public float giveClaimForShare(Countable askingPrey){
 		
-		//  0 <= giveDueShare <= 1
-		System.out.println("...");
-		System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+		System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share");
 		
-		//float totalPredatorPop = 0;
+		float otherClaimedShares = 0;
 		
-		float otherPredatorShare = 0;
-		
-		for (Population predator: this.area.getPredators(this)){
+		for (Countable prey: this.area.getDiet(this)){
 			
-			//totalPredatorPop += predator.getStatus();
+			if (!prey.getId().equals(askingPrey.getId()))
 			
-			if (!predator.getId().equals(askingPredator.getId()))
-			
-				otherPredatorShare += predator.giveDueShare(this);
+				otherClaimedShares += prey.giveDueShare(this);
 			
 		}
 		
-		//float dueShare = 1 - otherPredatorShare / totalPredatorPop;
-		//float dueShare = (float)this.status / ((float)this.status + otherPredatorShare);
-		float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + otherPredatorShare));
+		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + otherClaimedShares));
 		
+		System.out.println(this.getId() + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId());
 		
-		System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
-		System.out.println("...");
-		
-		return dueShare;
+		return claimedShare;
 		
 	}
 	

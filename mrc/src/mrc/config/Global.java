@@ -8,16 +8,19 @@ public class Global {
 	
 	// TEST POPULATIONS
 	
+	public static int RUN_TEST_STEPS = 0;
+	
 	public static int THE_WILD_CARRYING_CAPACITY_FACTOR = 1;
 	
-	public static String[] NEW_SPAWN_STATUSES = 	{"3",	"3",	"3",	"3",	"2"};
+	public static String[] NEW_SPAWN_STATUSES = 	{"2",	"0",	"0",	"0",	"0"};
 	
 	public static String[] GROWTH_THRESHOLDS = 		{"50",	"50",	"100",	"100",	"300"};
 	
 	// ...
 	
-	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"b3","40"},{"c4","30"}};
-	public static String[][] INSTABILITIES_IN_THE_WILD = {};
+	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","2"},{"c2","4"},{"b0","2"}};
+	public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","2"},{"c2","4"},{"b0","2"},{"b1","4"}};
+	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","2"},{"c1","2"},{"c2","4"},{"b0","2"},{"b1","4"}};
 	
 	public static String[] AREAS_LVL_0 = {"1","3","5"};
 	

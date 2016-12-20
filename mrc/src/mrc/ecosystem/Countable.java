@@ -1,5 +1,7 @@
 package mrc.ecosystem;
 
+import java.util.HashMap;
+
 import mrc.geography.Area;
 import mrc.geography.Location;
 
@@ -22,6 +24,8 @@ public abstract class Countable {
 	
 	private Location location;
 	
+	protected HashMap<String,Float> lastGivenShares = new HashMap<String,Float>();
+	
 	public Countable(int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
 		
 		this.status = status;
@@ -36,39 +40,43 @@ public abstract class Countable {
 		
 	}
 	
-	public abstract float getGrowthFactor();
-	
-	public float giveDueShare(Countable askingPredator){
+	public float giveDueShare(Population askingPredator){
 		
-		//  0 <= giveDueShare <= 1
-		System.out.println("...");
-		System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+		if (lastGivenShares.containsKey(askingPredator.getId())){
+			
+			return lastGivenShares.get(askingPredator.getId()).floatValue();
+			
+		} else {
 		
-		//float totalPredatorPop = 0;
+			System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+			
+			float otherPredatorShare = 0;
+			
+			for (Population predator: this.area.getPredators(this)){
+				
+				if (!predator.getId().equals(askingPredator.getId()))
+				
+					otherPredatorShare += predator.giveClaimForShare(this);
+				
+			}
+			
+			float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + otherPredatorShare));
+			
+			lastGivenShares.put(askingPredator.getId(), new Float(dueShare));
+			
+			System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
+			
+			System.out.println("");
+			
+			return dueShare;
 		
-		float otherPredatorShare = 0;
-		
-		for (Population predator: this.area.getPredators(this)){
-			
-			//totalPredatorPop += predator.getStatus();
-			
-			if (!predator.getId().equals(askingPredator.getId()))
-			
-				otherPredatorShare += predator.giveDueShare(this);
-			
 		}
 		
-		//float dueShare = 1 - otherPredatorShare / totalPredatorPop;
-		//float dueShare = (float)this.status / ((float)this.status + otherPredatorShare);
-		float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + otherPredatorShare));
-		
-		
-		System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
-		System.out.println("...");
-		
-		return dueShare;
-		
-	}
+	}	
+	
+	public abstract float getGrowthFactor();
+	
+	public abstract float giveClaimForShare(Countable countable);
 	
 	public abstract String getId();
 	
@@ -146,6 +154,6 @@ public abstract class Countable {
 		
 		return location;
 		
-	}	
+	}
 	
 }

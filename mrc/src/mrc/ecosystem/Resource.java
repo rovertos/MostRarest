@@ -63,15 +63,27 @@ public class Resource extends Countable {
 		
 		float growthFactor = 0;
 		
-		for (Countable predator: this.area.getPredators(this)){
+		for (Population predator: this.area.getPredators(this)){
 			
-			growthFactor -= predator.giveDueShare(this);
+			Float share = lastGivenShares.get(predator.getId());
+			
+			growthFactor -= share.floatValue();
 			
 		}
+		
+		lastGivenShares.clear();
 		
 		return growthFactor;
 		
 	}
+	
+	public float giveClaimForShare(Countable countable){
+		
+		// NOTHING TO CLAIM
+		
+		return 0;
+		
+	}	
 	
 	public String getId(){
 		
