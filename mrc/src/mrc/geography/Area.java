@@ -14,13 +14,7 @@ public class Area {
 	
 	private HashMap<Location, Area> borderMap = new HashMap<Location, Area>();
 	
-	public void spreadResource(Resource resource){
-		
-		populationMap.put(Location.UNDER, resource);
-		
-	}
-
-	public void settlePopulation(Location location, Population population){
+	public void settlePopulation(Location location, Countable population){
 		
 		populationMap.put(location, population);
 		

@@ -14,7 +14,7 @@ public class Logger {
 		
 			Countable countable = area.getPopulationMap().get(location);
 			
-			String areatrc = countable.getId() + ":" + countable.getTotal() + "(" + countable.getShift() + ")";
+			String areatrc = countable.getId() + ":" + countable.getStatus()+ "(" + countable.getProjectedStepsForStatusShift() + ")";
 			
 			return getPrettyPrint(areatrc);
 		

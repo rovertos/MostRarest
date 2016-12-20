@@ -2,123 +2,103 @@ package mrc.ecosystem;
 
 import mrc.config.GlobalConstants;
 import mrc.geography.Area;
+import mrc.geography.Location;
+import mrc.world.FantasyWildlifeFund;
 
-public class Resource implements Countable {
+public class Resource extends Countable {
 
 	private int level;
 	
 	private int index;
 	
-	private int total;
-	
-	private int shift;
-	
-	private float vulnerabilityFactor;
-	
-	private Area area;
-	
-	private int eatenThisStep = 0;
-	
-	public Resource(int level, int index, int total, Area area, float vulnerabilityFactor){
+	public Resource(int index, int status, Area area, float growthThreshold, int carryingCapacityFactor){
 		
-		this.level = level;
+		super(status, area, Location.UNDER, growthThreshold, carryingCapacityFactor);
+		
+		this.level = 0;
 		
 		this.index = index;
 		
-		this.total = total;
+	}
+	
+	public void executeStep(StringBuffer buf) {
+
+		float growthFactor = this.getGrowthFactor();
+
+		growthThisStep = growthFactor * status;
+
+		accumulatedGrowth += growthThisStep;
 		
-		this.area = area;
+		buf.append(this.getId() + ": " + status + "[" + growthFactor + "] => " + growthThisStep + " + " + accumulatedGrowth + ". ");
+
+	}	
+	
+	public void heal(float healAmount, StringBuffer buf){
 		
-		this.vulnerabilityFactor = vulnerabilityFactor;
+		accumulatedGrowth += healAmount;
 		
-		area.spreadResource(this);
+		if (Math.abs(accumulatedGrowth) > growthThreshold) {
+
+			if (accumulatedGrowth > 0 && status < 5) {
+
+				status++;
+				
+				accumulatedGrowth = accumulatedGrowth - growthThreshold;
+
+			} else if (accumulatedGrowth < 0 && status > 1) {
+				
+				status--;
+				
+				accumulatedGrowth = growthThreshold + accumulatedGrowth;
+				
+			}
+
+		}
+		
+		buf.append(this.getId() + ": +" + healAmount + " => " + this.status + ". ");
 		
 	}
 	
-	public void heal(int healAmount){
+	public float getGrowthFactor(){
 		
-		int survivors = this.total - this.eatenThisStep;
+		float growthFactor = 0;
 		
-		int newTotal = survivors + healAmount;
+		for (Countable predator: this.area.getPredators(this)){
+			
+			growthFactor -= predator.getDueShare(this);
+			
+		}
 		
-		this.shift = newTotal - this.total;
-		
-		this.total = newTotal;
-		
-		this.eatenThisStep = 0;
+		return growthFactor;
 		
 	}
+	
+	public float giveDueShare(Population population){
+		
+		int totalPredatorStatuses = 0;
+		
+		for (Countable predator: this.area.getPredators(this)){
+			
+			totalPredatorStatuses += predator.getStatus();
+			
+		}
+		
+		return (float)population.getStatus() * (float)this.status / (float)totalPredatorStatuses;
+		
+	}
+	
+	public float getDueShare(Countable countable){
+		
+		// NOTHING TO GET
+		
+		return 0;
+		
+	}	
 	
 	public String getId(){
 		
 		return GlobalConstants.LEVELS[this.level] + index;
 		
 	}
-
-	public int getTotal() {
-		
-		return total;
-		
-	}
-
-	public int getShift() {
-		
-		return shift;
-		
-	}
-	
-	public int getNumberOfPredators(){
-		
-		return area.getPredators(this).size();
-		
-	}	
-
-	public void eaten(int eatenThisStep) {
-		
-		this.eatenThisStep += eatenThisStep;
-		
-	}	
-
-	public int getEatenThisStep() {
-		
-		return eatenThisStep;
-		
-	}
-
-	public int getDueShare(Population predator) {
-		
-		float predatorPopulation = predator.getTotal() / predator.getAvailableFoods();
-		
-		float competitionTotal = 0;
-		
-		for (Population population: area.getPredators(this)){
-			
-			competitionTotal += population.getTotal() / population.getAvailableFoods();
-			
-		}
-		
-		// TODO: REMOVE EXTINCT POPULATIONS
-		
-		if (competitionTotal == 0)
-			
-			competitionTotal = 1;		
-		
-		float competitionFactor = predatorPopulation / competitionTotal;
-		
-		return Math.round(total * vulnerabilityFactor * competitionFactor);
-		
-	}
-
-	public void setVulnerabilityFactor(float vulnerabilityFactor) {
-		
-		this.vulnerabilityFactor = vulnerabilityFactor;
-		
-	}
-	
-	public int getCompetitorsForThis(){
-		
-		return area.getPredators(this).size();
-		
-	}	
 	
 }

@@ -1,19 +1,105 @@
 package mrc.ecosystem;
 
-public interface Countable {
+import mrc.geography.Area;
+import mrc.geography.Location;
 
-	public String getId();
+public abstract class Countable {
 	
-	public int getTotal();
+	// status: 1-5
+	protected int status;
 	
-	public int getShift();
+	private int statusShiftThisStep;
 	
-	public void eaten(int eatenThisStep);
+	protected float accumulatedGrowth;
 	
-	public int getEatenThisStep();
+	protected float growthThisStep;
 	
-	public int getDueShare(Population predator);
+	protected float growthThreshold;
 	
-	public int getCompetitorsForThis();
+	protected int carryingCapacityFactor;
+	
+	protected Area area;
+	
+	public Countable(int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
+		
+		this.status = status;
+		
+		this.area = area;
+		
+		this.growthThreshold = growthThreshold;
+		
+		this.carryingCapacityFactor = carryingCapacityFactor;
+		
+		this.area.settlePopulation(location, this);
+		
+	}
+	
+	public abstract float getGrowthFactor();
+	
+	public abstract float getDueShare(Countable countable);
+	
+	public abstract float giveDueShare(Population population);
+	
+	public abstract String getId();
+	
+	public int getStatus(){
+		
+		return status;
+		
+	}	
+	
+	public void setStatus(int status) {
+		
+		this.status = status;
+		
+	}	
+
+	public int getStatusShiftThisStep() {
+		
+		return statusShiftThisStep;
+		
+	}
+
+	public void setStatusShiftThisStep(int shiftStatusThisStep) {
+		
+		this.statusShiftThisStep = shiftStatusThisStep;
+		
+	}
+
+	public float getGrowthThisStep(){
+	
+		return growthThisStep;
+		
+	}
+	
+	public int getCompetitorsForThis(){
+		
+		return area.getPredators(this).size();
+		
+	}
+
+	public int getCarryingCapacityFactor() {
+		
+		return carryingCapacityFactor;
+		
+	}
+
+	public void setCarryingCapacityFactor(int carryingCapacityFactor) {
+		
+		this.carryingCapacityFactor = carryingCapacityFactor;
+		
+	}
+	
+	public int getProjectedStepsForStatusShift(){
+		
+		boolean positive = growthThisStep > 0;
+		
+		float remain = (growthThreshold - Math.abs(accumulatedGrowth));
+		
+		int steps = remain <= Math.abs(growthThisStep) ? 1 : (int)Math.ceil(remain / growthThisStep);
+		
+		return positive ? steps : -steps;
+		
+	}
 	
 }

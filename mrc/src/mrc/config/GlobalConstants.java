@@ -4,17 +4,11 @@ public class GlobalConstants {
 	
 	// TEST POPULATIONS
 	
-	public static String[] NEW_SPAWN_POPULATIONS = 	{"40000",	"5000",		"500",		"500",		"20"};
+	public static int THE_WILD_CARRYING_CAPACITY_FACTOR = 1;
 	
-	public static String[] MAX_POPULATIONS = 		{"100000",	"10000",	"1000",		"1000",		"100"};
-
-	public static String[] HUNGRY_PERCENT = 		{".",		"10",		"10",		"10",		"50"};
+	public static String[] NEW_SPAWN_STATUSES = 	{"3",	"3",	"3",	"3",	"2"};
 	
-	public static String[] EAT_AMOUNT = 			{".",		"1",		"1",		"1",		"30"};	
-	
-	public static String[] VULNERABLE_PERCENT =		{"10",		"10",		"10",		"10",		"0"};
-	
-	public static String[] GROWTH_PERCENT = 		{".",		"110",		"110",		"110",		"110"};
+	public static String[] GROWTH_THRESHOLDS = 		{"50",	"50",	"100",	"100",	"300"};
 	
 	// ...
 	

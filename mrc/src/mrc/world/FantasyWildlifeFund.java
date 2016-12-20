@@ -20,13 +20,13 @@ public class FantasyWildlifeFund {
 			
 			registered = populationRegistry.get(speciesId);
 			
-			registered.setWorldPopulation(registered.getWorldPopulation() + population.getShift());
+			registered.setWorldPopulation(registered.getWorldPopulation() + (population.getStatusShiftThisStep() * population.getCarryingCapacityFactor()));
 			
 		} else {
 			
 			registered = new ProtectedSpecies(population.getSpecies());
 			
-			registered.setWorldPopulation(population.getTotal());
+			registered.setWorldPopulation(population.getStatus() * population.getCarryingCapacityFactor());
 			
 		}
 		

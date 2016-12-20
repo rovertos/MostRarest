@@ -16,7 +16,7 @@ public class TheWild extends Ecosystem {
 	
 	public TheWild(){
 		
-		super();
+		super(GlobalConstants.THE_WILD_CARRYING_CAPACITY_FACTOR);
 		
 	}
 		
@@ -28,17 +28,11 @@ public class TheWild extends Ecosystem {
 		
 		// Hebivores at Lvl 1
 		
-		int herbivorePopulation = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[1]);
+		int status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[1]);
 		
-		int lvl1index = 0;
+		float growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[1]);
 		
-		float hunger1Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[1]) / 100;
-		
-		float eat1Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[1]);
-		
-		float vulnerability1Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[1]) / 100;
-		
-		float growth1Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[1]) / 100;
+		int index = 0;
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_1.length; i++){
 			
@@ -48,13 +42,13 @@ public class TheWild extends Ecosystem {
 			
 			for (int j=0; j<areas.length; j++){
 				
-				Herbivore herbivore = new Herbivore(1, lvl1index++);
+				Herbivore herbivore = new Herbivore(1, index++);
 				
 				TheWild.knownSpecies.put(herbivore.getId(), herbivore);
 												
 				int areaIndex = Integer.parseInt(areas[j]);
 				
-				Population population = new Population(herbivore, this, herbivorePopulation, this.getArea(areaIndex), Location.SOUTH, hunger1Factor, eat1Amount, vulnerability1Factor, growth1Factor);
+				Population population = new Population(herbivore, status, this.getArea(areaIndex), Location.SOUTH, growthThreshold, this.carryingCapacityFactor);
 				
 				this.addNewPopulation(population);
 				
@@ -64,17 +58,11 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 2
 		
-		int carnivore2Population = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[2]);
+		status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[2]);
 		
-		int lvl2index = 0;
+		growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[2]);
 		
-		float hunger2Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[2]) / 100;
-		
-		float eat2Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[2]);		
-
-		float vulnerability2Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[2]) / 100;	
-		
-		float growth2Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[2]) / 100;		
+		index = 0;	
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_2.length; i++){
 			
@@ -84,7 +72,7 @@ public class TheWild extends Ecosystem {
 			
 			for (int j=0; j<areas.length; j++){
 				
-				Carnivore carnivore = new Carnivore(2, lvl2index++);
+				Carnivore carnivore = new Carnivore(2, index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
 												
@@ -94,15 +82,15 @@ public class TheWild extends Ecosystem {
 				
 				if (areas.length == 1 || j == 1){
 					
-					population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.INNER, hunger2Factor, eat2Amount, vulnerability2Factor, growth2Factor);
+					population = new Population(carnivore, status, this.getArea(areaIndex), Location.INNER, growthThreshold, this.carryingCapacityFactor);
 					
 				} else if (j < 1){
 					
-					population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.WEST, hunger2Factor, eat2Amount, vulnerability2Factor, growth2Factor);
+					population = new Population(carnivore, status, this.getArea(areaIndex), Location.WEST, growthThreshold, this.carryingCapacityFactor);
 					
 				} else {
 					
-					population = new Population(carnivore, this, carnivore2Population, this.getArea(areaIndex), Location.EAST, hunger2Factor, eat2Amount, vulnerability2Factor, growth2Factor);
+					population = new Population(carnivore, status, this.getArea(areaIndex), Location.EAST, growthThreshold, this.carryingCapacityFactor);
 					
 				}
 				
@@ -114,17 +102,11 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 3
 		
-		int carnivore3Population = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[3]);
+		status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[3]);
 		
-		int lvl3index = 0;
+		growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[3]);
 		
-		float hunger3Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[3]) / 100;
-		
-		float eat3Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[3]);		
-		
-		float vulnerability3Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[3]) / 100;		
-		
-		float growth3Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[3]) / 100;	
+		index = 0;	
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_3.length; i++){
 			
@@ -134,13 +116,13 @@ public class TheWild extends Ecosystem {
 			
 			for (int j=0; j<areas.length; j++){
 				
-				Carnivore carnivore = new Carnivore(3, lvl3index++);
+				Carnivore carnivore = new Carnivore(3, index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
 				
 				int areaIndex = Integer.parseInt(areas[j]);
 				
-				Population population = new Population(carnivore, this, carnivore3Population, this.getArea(areaIndex), Location.NORTH, hunger3Factor, eat3Amount, vulnerability3Factor, growth3Factor);
+				Population population = new Population(carnivore, status, this.getArea(areaIndex), Location.NORTH, growthThreshold, this.carryingCapacityFactor);
 				
 				this.addNewPopulation(population);
 				
@@ -150,17 +132,11 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 4
 		
-		int carnivore4Population = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[4]);
+		status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[4]);
 		
-		int lvl4index = 0;
+		growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[4]);
 		
-		float hunger4Factor = Float.parseFloat(GlobalConstants.HUNGRY_PERCENT[4]) / 100;
-		
-		float eat4Amount = Float.parseFloat(GlobalConstants.EAT_AMOUNT[4]);		
-		
-		float vulnerability4Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[4]) / 100;		
-		
-		float growth4Factor = Float.parseFloat(GlobalConstants.GROWTH_PERCENT[4]) / 100;		
+		index = 0;			
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_4.length; i++){
 			
@@ -170,13 +146,13 @@ public class TheWild extends Ecosystem {
 			
 			for (int j=0; j<areas.length; j++){
 				
-				Carnivore carnivore = new Carnivore(4, lvl4index++);
+				Carnivore carnivore = new Carnivore(4, index++);
 				
 				TheWild.knownSpecies.put(carnivore.getId(), carnivore);
 				
 				int areaIndex = Integer.parseInt(areas[j]);
 				
-				Population population = new Population(carnivore, this, carnivore4Population, this.getArea(areaIndex), Location.OVER, hunger4Factor, eat4Amount, vulnerability4Factor, growth4Factor);
+				Population population = new Population(carnivore, status, this.getArea(areaIndex), Location.OVER, growthThreshold, this.carryingCapacityFactor);
 			
 				this.addNewPopulation(population);
 				
@@ -192,7 +168,7 @@ public class TheWild extends Ecosystem {
 			
 			int unstablePopulationTotal = Integer.parseInt(GlobalConstants.INSTABILITIES_IN_THE_WILD[i][1]);
 			
-			this.getPopulation(unstableSpeciesId).setTotal(unstablePopulationTotal);
+			this.getPopulation(unstableSpeciesId).setStatus(unstablePopulationTotal);
 			
 		}
 		

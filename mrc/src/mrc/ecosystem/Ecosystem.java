@@ -17,7 +17,11 @@ public class Ecosystem {
 	
 	private List<Resource> resources;
 	
-	public Ecosystem(){
+	protected int carryingCapacityFactor;
+	
+	public Ecosystem(int carryingCapacityFactor){
+		
+		this.carryingCapacityFactor = carryingCapacityFactor;
 		
 		this.areas = new ArrayList<Area>();
 		
@@ -41,11 +45,11 @@ public class Ecosystem {
 		
 		resources = new ArrayList<Resource>();
 		
-		int newAmount = Integer.parseInt(GlobalConstants.NEW_SPAWN_POPULATIONS[0]);
+		int status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[0]);
 		
-		int lvl0index = 0;
+		float growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[0]);
 		
-		float vulnerability0Factor = Float.parseFloat(GlobalConstants.VULNERABLE_PERCENT[0]) / 100;		
+		int index = 0;
 		
 		for (int i=0; i<GlobalConstants.AREAS_LVL_0.length; i++){
 			
@@ -59,7 +63,7 @@ public class Ecosystem {
 				
 				Area area = areas.get(areaIndex);
 				
-				Resource resource = new Resource(0, lvl0index++, newAmount, area, vulnerability0Factor);
+				Resource resource = new Resource(index++, status, area, growthThreshold, this.carryingCapacityFactor);
 				
 				resources.add(resource);
 				
@@ -88,26 +92,36 @@ public class Ecosystem {
 				population.executeStep(buf);
 				
 			}
-						
+			
 			System.out.println(buf.toString());
 			
 		}
 		
 		// Then, Resources heal
 		
-		int totalResourcesEaten = 0;
+		StringBuffer buf = new StringBuffer();
 		
 		for (Resource resource: resources){
 			
-			totalResourcesEaten += resource.getEatenThisStep();
+			resource.executeStep(buf);
+			
+		}
+		
+		float totalGrowthThisStep = 0;
+		
+		for (Resource resource: resources){
+			
+			totalGrowthThisStep += resource.getGrowthThisStep();
 			
 		}
 		
 		for (Resource resource: resources){
 			
-			resource.heal(Math.round((float)totalResourcesEaten / 3));
+			resource.heal(-1 * totalGrowthThisStep / 3, buf);
 			
 		}
+		
+		System.out.println(buf.toString());
 		
 	}
 	

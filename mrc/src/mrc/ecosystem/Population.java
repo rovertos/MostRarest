@@ -4,101 +4,103 @@ import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
 
-public class Population implements Countable {
+public class Population extends Countable {
 	
-	private int total = 0;
-	
-	private int shift = 0;
-
 	private Species species;
-	
-	private Ecosystem ecosystem;
-	
-	private Area area;
-	
-	private int eatenThisStep = 0;
-	
-	private float hungerFactor;
-	
-	private float eatAmount;
-	
-	private float vulnerabilityFactor;
-	
-	private float growthFactor;
-	
-	public Population(Species species, Ecosystem ecosystem, int total, Area area, Location location, float hungerFactor, float eatAmount, float vulnerabilityFactor, float growthFactor){
+		
+	public Population(Species species, int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
+		
+		super(status, area, location, growthThreshold, carryingCapacityFactor);
 		
 		this.species = species;
-		
-		this.ecosystem = ecosystem;
-		
-		this.total = total;
-		
-		this.area = area;
-		
-		this.hungerFactor = hungerFactor;
-		
-		this.eatAmount = eatAmount;
-		
-		this.vulnerabilityFactor = vulnerabilityFactor;
-		
-		this.growthFactor = growthFactor;
-		
-		area.settlePopulation(location, this);
 		
 		FantasyWildlifeFund.register(this);
 		
 	}
+
+	public void executeStep(StringBuffer buf) {
+		
+		// TODO: STARVATION!
+
+		float growthFactor = this.getGrowthFactor();
+		
+		int oldStatus = this.status;
+
+		growthThisStep = growthFactor * status;
+
+		accumulatedGrowth += growthThisStep;
+
+		if (Math.abs(accumulatedGrowth) > growthThreshold) {
+
+			if (accumulatedGrowth > 0 && status < 5) {
+
+				status++;
+				
+				accumulatedGrowth = accumulatedGrowth - growthThreshold;
+				
+				FantasyWildlifeFund.register(this);
+
+			} else if (accumulatedGrowth < 0 && status > 1) {
+				
+				status--;
+				
+				accumulatedGrowth = growthThreshold + accumulatedGrowth;
+				
+				FantasyWildlifeFund.register(this);
+				
+			}
+
+		} 
+		
+		buf.append(this.getId() + ": " + oldStatus + "[" + growthFactor + "] => " + growthThisStep + " + " + accumulatedGrowth + " => " + this.status + ". ");
+
+	}
 	
-	public void executeStep(StringBuffer buf){
+	public float getGrowthFactor(){
 		
-		int survivors = total - eatenThisStep;
+		float growthFactor = 0;
 		
-		int hungry = (int) (survivors * hungerFactor);
-		
-		int amountLeftToEat = (int) (hungry * eatAmount);
-		
-		buf.append(this.getSpecies().getId() + ":" + survivors + " => ");
-		
-		// FIRST CONSUME
+		for (Countable predator: this.area.getPredators(this)){
 			
-		for (Countable countable: this.getArea().getDiet(this)){
-			
-			int dueShare = countable.getDueShare(this);
-			
-			buf.append(countable.getId() + "-" + dueShare + ", ");
-			
-			countable.eaten(dueShare);
-			
-			amountLeftToEat = amountLeftToEat - dueShare;
+			growthFactor -= predator.getDueShare(this);
 			
 		}
 		
-		buf.setLength(buf.length() - 2);
-		
-		// TODO: TOTALLY POSSIBLE amountLeftToEat IS NEGATIVE, NEED TO FIX (?)
-		
-		if (amountLeftToEat < 0)
+		for (Countable prey: this.area.getDiet(this)){
 			
-			amountLeftToEat = 0;
+			growthFactor += prey.giveDueShare(this);
+			
+		}
 		
-		int starvedToDeath =  (int) (amountLeftToEat / eatAmount);
+		return growthFactor;
 		
-		survivors = survivors - starvedToDeath;
+	}
+	
+	public float giveDueShare(Population population){
 		
-		// THEN REPRODUCE
+		int totalPredatorStatuses = 0;
 		
-		int newTotal = (int) (survivors * growthFactor);
+		for (Countable predator: this.area.getPredators(this)){
+			
+			totalPredatorStatuses += predator.getStatus();
+			
+		}
 		
-		this.shift = newTotal - total;
+		return (float)population.getStatus() * (float)this.status / (float)totalPredatorStatuses;
 		
-		buf.append(" => " + (-starvedToDeath) + "[" + amountLeftToEat + "] => " + newTotal + "(" + this.shift + "). ");
+	}
+	
+	public float getDueShare(Countable countable){
 		
-		this.total = newTotal;
+		int totalPreyStatuses = 0;
 		
-		this.eatenThisStep = 0;
+		for (Countable prey: this.area.getDiet(this)){
+			
+			totalPreyStatuses += prey.getStatus();
+			
+		}
 		
-		FantasyWildlifeFund.register(this);
+		return (float)countable.getStatus() * (float)this.status / (float)totalPreyStatuses;
 		
 	}
 	
@@ -108,123 +110,9 @@ public class Population implements Countable {
 		
 	}
 	
-	public int getTotal() {
-		
-		return total;
-		
-	}
-	
-	public void setTotal(int total) {
-		
-		this.total = total;
-		
-	}	
-
 	public Species getSpecies() {
 		
 		return species;
-		
-	}
-
-	public Ecosystem getEcosystem() {
-		
-		return ecosystem;
-		
-	}
-
-	public int getShift() {
-		
-		return shift;
-		
-	}
-
-	public Area getArea() {
-		
-		return area;
-		
-	}	
-	
-	public void eaten(int eatenThisStep) {
-		
-		this.eatenThisStep += eatenThisStep;
-		
-	}	
-	
-	public int getEatenThisStep() {
-		
-		return eatenThisStep;
-		
-	}	
-
-	public float getHungerFactor() {
-		
-		return hungerFactor;
-		
-	}		
-
-	public void setHungerFactor(float hungerFactor) {
-		
-		this.hungerFactor = hungerFactor;
-		
-	}	
-
-	public float getEatAmount() {
-		
-		return eatAmount;
-		
-	}
-
-	public void setEatAmount(float eatAmount) {
-		
-		this.eatAmount = eatAmount;
-		
-	}
-
-	public int getDueShare(Population predator) {
-		
-		float predatorPopulation = predator.getTotal() / predator.getAvailableFoods();
-		
-		float competitionTotal = 0;
-		
-		for (Population population: area.getPredators(this)){
-			
-			competitionTotal += population.getTotal() / population.getAvailableFoods();
-			
-		}
-		
-		// TODO: REMOVE EXTINCT POPULATIONS
-		
-		if (competitionTotal == 0)
-			
-			competitionTotal = 1;
-		
-		float competitionFactor = predatorPopulation / competitionTotal;
-		
-		return Math.round(total * vulnerabilityFactor * competitionFactor);
-		
-	}
-
-	public void setVulnerabilityFactor(float vulnerabilityFactor) {
-		
-		this.vulnerabilityFactor = vulnerabilityFactor;
-		
-	}
-
-	public float getGrowthFactor() {
-		
-		return growthFactor;
-		
-	}
-
-	public void setGrowthFactor(float growthFactor) {
-		
-		this.growthFactor = growthFactor;
-		
-	}
-	
-	public int getCompetitorsForThis(){
-		
-		return area.getPredators(this).size();
 		
 	}
 	
