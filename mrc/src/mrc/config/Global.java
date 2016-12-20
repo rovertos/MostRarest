@@ -18,8 +18,8 @@ public class Global {
 	
 	// ...
 	
-	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"b3","40"},{"c4","30"}};
 	public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","2"},{"c2","2"},{"b0","2"}};
+	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","2"},{"c2","2"},{"b0","2"},{"b1","2"}};
 	
 	public static String[] AREAS_LVL_0 = {"1","3","5"};
 	
