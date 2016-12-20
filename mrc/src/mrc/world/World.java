@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mrc.config.GlobalConstants;
+import mrc.config.Global;
 import mrc.ecosystem.FantasyPark;
 import mrc.json.FactoryJSON;
 import mrc.json.MrcResponseJSON;
@@ -70,7 +70,7 @@ public class World {
 		
 		ArrayList<Human> humans = new ArrayList<Human>();
 		
-		for (int i=1; i<=GlobalConstants.NUMBER_OF_ROBOTS; i++){
+		for (int i=1; i<=Global.NUMBER_OF_ROBOTS; i++){
 			
 			Robot robot = new Robot("R" + i);
 			

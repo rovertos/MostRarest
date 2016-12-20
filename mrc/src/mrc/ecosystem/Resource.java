@@ -1,6 +1,6 @@
 package mrc.ecosystem;
 
-import mrc.config.GlobalConstants;
+import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
@@ -29,7 +29,7 @@ public class Resource extends Countable {
 
 		accumulatedGrowth += growthThisStep;
 		
-		buf.append(this.getId() + ": " + status + "[" + growthFactor + "] => " + growthThisStep + " + " + accumulatedGrowth + ". ");
+		buf.append(this.getId() + ": " + status + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + ". ");
 
 	}	
 	
@@ -55,7 +55,7 @@ public class Resource extends Countable {
 
 		}
 		
-		buf.append(this.getId() + ": +" + healAmount + " => " + this.status + ". ");
+		buf.append(this.getId() + ": +" + Global.formatter.format(healAmount) + " => " + this.status + ". ");
 		
 	}
 	
@@ -97,7 +97,7 @@ public class Resource extends Countable {
 	
 	public String getId(){
 		
-		return GlobalConstants.LEVELS[this.level] + index;
+		return Global.LEVELS[this.level] + index;
 		
 	}
 	

@@ -2,7 +2,7 @@ package mrc.world;
 
 import java.util.HashMap;
 
-import mrc.config.GlobalConstants;
+import mrc.config.Global;
 import mrc.ecosystem.Carnivore;
 import mrc.ecosystem.Ecosystem;
 import mrc.ecosystem.Herbivore;
@@ -16,7 +16,7 @@ public class TheWild extends Ecosystem {
 	
 	public TheWild(){
 		
-		super(GlobalConstants.THE_WILD_CARRYING_CAPACITY_FACTOR);
+		super(Global.THE_WILD_CARRYING_CAPACITY_FACTOR);
 		
 	}
 		
@@ -28,15 +28,15 @@ public class TheWild extends Ecosystem {
 		
 		// Hebivores at Lvl 1
 		
-		int status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[1]);
+		int status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[1]);
 		
-		float growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[1]);
+		float growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[1]);
 		
 		int index = 0;
 		
-		for (int i=0; i<GlobalConstants.AREAS_LVL_1.length; i++){
+		for (int i=0; i<Global.AREAS_LVL_1.length; i++){
 			
-			String conf = GlobalConstants.AREAS_LVL_1[i];
+			String conf = Global.AREAS_LVL_1[i];
 			
 			String[] areas = conf.split(",");
 			
@@ -58,15 +58,15 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 2
 		
-		status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[2]);
+		status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[2]);
 		
-		growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[2]);
+		growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[2]);
 		
 		index = 0;	
 		
-		for (int i=0; i<GlobalConstants.AREAS_LVL_2.length; i++){
+		for (int i=0; i<Global.AREAS_LVL_2.length; i++){
 			
-			String conf = GlobalConstants.AREAS_LVL_2[i];
+			String conf = Global.AREAS_LVL_2[i];
 			
 			String[] areas = conf.split(",");
 			
@@ -102,15 +102,15 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 3
 		
-		status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[3]);
+		status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[3]);
 		
-		growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[3]);
+		growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[3]);
 		
 		index = 0;	
 		
-		for (int i=0; i<GlobalConstants.AREAS_LVL_3.length; i++){
+		for (int i=0; i<Global.AREAS_LVL_3.length; i++){
 			
-			String conf = GlobalConstants.AREAS_LVL_3[i];
+			String conf = Global.AREAS_LVL_3[i];
 			
 			String[] areas = conf.split(",");
 			
@@ -132,15 +132,15 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 4
 		
-		status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[4]);
+		status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[4]);
 		
-		growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[4]);
+		growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[4]);
 		
 		index = 0;			
 		
-		for (int i=0; i<GlobalConstants.AREAS_LVL_4.length; i++){
+		for (int i=0; i<Global.AREAS_LVL_4.length; i++){
 			
-			String conf = GlobalConstants.AREAS_LVL_4[i];
+			String conf = Global.AREAS_LVL_4[i];
 			
 			String[] areas = conf.split(",");
 			
@@ -162,11 +162,11 @@ public class TheWild extends Ecosystem {
 		
 		// THEN DESTABILIZE THE WORLD ECOSYSTEM, TO CREATE DYNAMICS
 		
-		for (int i=0; i<GlobalConstants.INSTABILITIES_IN_THE_WILD.length; i++){
+		for (int i=0; i<Global.INSTABILITIES_IN_THE_WILD.length; i++){
 			
-			String unstableSpeciesId = GlobalConstants.INSTABILITIES_IN_THE_WILD[i][0];
+			String unstableSpeciesId = Global.INSTABILITIES_IN_THE_WILD[i][0];
 			
-			int unstablePopulationTotal = Integer.parseInt(GlobalConstants.INSTABILITIES_IN_THE_WILD[i][1]);
+			int unstablePopulationTotal = Integer.parseInt(Global.INSTABILITIES_IN_THE_WILD[i][1]);
 			
 			this.getPopulation(unstableSpeciesId).setStatus(unstablePopulationTotal);
 			

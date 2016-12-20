@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mrc.config.GlobalConstants;
+import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.util.Logger;
@@ -45,15 +45,15 @@ public class Ecosystem {
 		
 		resources = new ArrayList<Resource>();
 		
-		int status = Integer.parseInt(GlobalConstants.NEW_SPAWN_STATUSES[0]);
+		int status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[0]);
 		
-		float growthThreshold = Float.parseFloat(GlobalConstants.GROWTH_THRESHOLDS[0]);
+		float growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[0]);
 		
 		int index = 0;
 		
-		for (int i=0; i<GlobalConstants.AREAS_LVL_0.length; i++){
+		for (int i=0; i<Global.AREAS_LVL_0.length; i++){
 			
-			String conf = GlobalConstants.AREAS_LVL_0[i];
+			String conf = Global.AREAS_LVL_0[i];
 			
 			String[] areasString = conf.split(",");
 			
@@ -77,15 +77,15 @@ public class Ecosystem {
 		
 		// First, Species eat and reproduce
 				
-		for (int i=GlobalConstants.LEVELS.length-1; i>0; i--){
+		for (int i=Global.LEVELS.length-1; i>0; i--){
 
 			StringBuffer buf = new StringBuffer();
 			
-			int pops = Integer.parseInt(GlobalConstants.POPS_PER_LEVEL[i]);
+			int pops = Integer.parseInt(Global.POPS_PER_LEVEL[i]);
 			
 			for (int j=0; j<pops; j++){
 				
-				String id = GlobalConstants.LEVELS[i] + j;
+				String id = Global.LEVELS[i] + j;
 								
 				Population population = populations.get(id);
 				

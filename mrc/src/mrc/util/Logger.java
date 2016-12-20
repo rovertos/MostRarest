@@ -1,5 +1,5 @@
 package mrc.util;
-
+import mrc.config.Global;
 import mrc.ecosystem.Countable;
 import mrc.geography.Area;
 import mrc.geography.Location;
@@ -14,7 +14,7 @@ public class Logger {
 		
 			Countable countable = area.getPopulationMap().get(location);
 			
-			String areatrc = countable.getId() + ":" + countable.getStatus()+ "(" + countable.getProjectedStepsForStatusShift() + ")";
+			String areatrc = countable.getId() + ":" + countable.getStatus()+ "(" + Global.formatter.format(countable.getGrowthFactor()) + ")";
 			
 			return getPrettyPrint(areatrc);
 		

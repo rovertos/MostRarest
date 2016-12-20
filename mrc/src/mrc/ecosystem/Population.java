@@ -1,5 +1,6 @@
 package mrc.ecosystem;
 
+import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
@@ -52,7 +53,7 @@ public class Population extends Countable {
 
 		} 
 		
-		buf.append(this.getId() + ": " + oldStatus + "[" + growthFactor + "] => " + growthThisStep + " + " + accumulatedGrowth + " => " + this.status + ". ");
+		buf.append(this.getId() + ": " + oldStatus + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + " => " + this.status + ". ");
 
 	}
 	

@@ -1,6 +1,10 @@
 package mrc.config;
 
-public class GlobalConstants {
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Global {
 	
 	// TEST POPULATIONS
 	
@@ -31,6 +35,20 @@ public class GlobalConstants {
 	
 	public static String[] LEVELS = {"a","b","c","d","e"};
 	
-	public static String[] POPS_PER_LEVEL = {"4","7","15","7","2"};	
+	public static String[] POPS_PER_LEVEL = {"4","7","15","7","2"};
+	
+	public static NumberFormat formatter;
+	
+	static {
+		
+		formatter = NumberFormat.getInstance(Locale.US);
+		
+		formatter.setMaximumFractionDigits(2);
+		
+		formatter.setMinimumFractionDigits(1);
+		
+		formatter.setRoundingMode(RoundingMode.HALF_UP);
+		
+	}
 	
 }

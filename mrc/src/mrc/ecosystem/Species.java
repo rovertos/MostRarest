@@ -1,6 +1,6 @@
 package mrc.ecosystem;
 
-import mrc.config.GlobalConstants;
+import mrc.config.Global;
 
 public class Species {
 
@@ -18,7 +18,7 @@ public class Species {
 	
 	public String getId(){
 		
-		return GlobalConstants.LEVELS[this.level] + index;
+		return Global.LEVELS[this.level] + index;
 		
 	}
 

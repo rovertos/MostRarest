@@ -92,6 +92,10 @@ public abstract class Countable {
 	
 	public int getProjectedStepsForStatusShift(){
 		
+		if (growthThisStep == 0)
+			
+			return 0;
+		
 		boolean positive = growthThisStep > 0;
 		
 		float remain = (growthThreshold - Math.abs(accumulatedGrowth));
