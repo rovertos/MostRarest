@@ -15,8 +15,10 @@ public class Area {
 	private HashMap<Location, Area> borderMap = new HashMap<Location, Area>();
 	
 	public void settlePopulation(Location location, Countable population){
-		
-		populationMap.put(location, population);
+				
+		if (population.getStatus() > 0)
+			
+			populationMap.put(location, population);
 		
 	}
 	

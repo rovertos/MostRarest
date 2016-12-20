@@ -20,6 +20,8 @@ public abstract class Countable {
 	
 	protected Area area;
 	
+	private Location location;
+	
 	public Countable(int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
 		
 		this.status = status;
@@ -36,9 +38,37 @@ public abstract class Countable {
 	
 	public abstract float getGrowthFactor();
 	
-	public abstract float getDueShare(Countable countable);
-	
-	public abstract float giveDueShare(Population population);
+	public float giveDueShare(Countable askingPredator){
+		
+		//  0 <= giveDueShare <= 1
+		System.out.println("...");
+		System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+		
+		//float totalPredatorPop = 0;
+		
+		float otherPredatorShare = 0;
+		
+		for (Population predator: this.area.getPredators(this)){
+			
+			//totalPredatorPop += predator.getStatus();
+			
+			if (!predator.getId().equals(askingPredator.getId()))
+			
+				otherPredatorShare += predator.giveDueShare(this);
+			
+		}
+		
+		//float dueShare = 1 - otherPredatorShare / totalPredatorPop;
+		//float dueShare = (float)this.status / ((float)this.status + otherPredatorShare);
+		float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + otherPredatorShare));
+		
+		
+		System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
+		System.out.println("...");
+		
+		return dueShare;
+		
+	}
 	
 	public abstract String getId();
 	
@@ -105,5 +135,17 @@ public abstract class Countable {
 		return positive ? steps : -steps;
 		
 	}
+
+	public Area getArea() {
+		
+		return area;
+		
+	}
+
+	public Location getLocation() {
+		
+		return location;
+		
+	}	
 	
 }

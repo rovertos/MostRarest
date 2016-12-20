@@ -21,6 +21,8 @@ public class Population extends Countable {
 
 	public void executeStep(StringBuffer buf) {
 		
+		System.out.println(this.getId() + " executeStep with status = " + this.status);		
+	
 		// TODO: STARVATION!
 
 		float growthFactor = this.getGrowthFactor();
@@ -50,20 +52,22 @@ public class Population extends Countable {
 				FantasyWildlifeFund.register(this);
 				
 			}
-
-		} 
+			
+			buf.append(this.getId() + ": " + oldStatus + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + " => " + this.status + ". ");
 		
-		buf.append(this.getId() + ": " + oldStatus + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + " => " + this.status + ". ");
+		}
 
 	}
 	
 	public float getGrowthFactor(){
 		
+		System.out.println(this.getId() + " CALCULATING GROWTH FACTOR: ");
+		
 		float growthFactor = 0;
 		
-		for (Countable predator: this.area.getPredators(this)){
+		for (Population predator: this.area.getPredators(this)){
 			
-			growthFactor -= predator.getDueShare(this);
+			growthFactor -= this.giveDueShare(predator);
 			
 		}
 		
@@ -74,34 +78,38 @@ public class Population extends Countable {
 		}
 		
 		return growthFactor;
-		
+				
 	}
 	
-	public float giveDueShare(Population population){
+	public float giveDueShare(Countable askingPredator){
 		
-		int totalPredatorStatuses = 0;
+		//  0 <= giveDueShare <= 1
+		System.out.println("...");
+		System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
 		
-		for (Countable predator: this.area.getPredators(this)){
+		//float totalPredatorPop = 0;
+		
+		float otherPredatorShare = 0;
+		
+		for (Population predator: this.area.getPredators(this)){
 			
-			totalPredatorStatuses += predator.getStatus();
+			//totalPredatorPop += predator.getStatus();
+			
+			if (!predator.getId().equals(askingPredator.getId()))
+			
+				otherPredatorShare += predator.giveDueShare(this);
 			
 		}
 		
-		return (float)population.getStatus() * (float)this.status / (float)totalPredatorStatuses;
+		//float dueShare = 1 - otherPredatorShare / totalPredatorPop;
+		//float dueShare = (float)this.status / ((float)this.status + otherPredatorShare);
+		float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + otherPredatorShare));
 		
-	}
-	
-	public float getDueShare(Countable countable){
 		
-		int totalPreyStatuses = 0;
+		System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
+		System.out.println("...");
 		
-		for (Countable prey: this.area.getDiet(this)){
-			
-			totalPreyStatuses += prey.getStatus();
-			
-		}
-		
-		return (float)countable.getStatus() * (float)this.status / (float)totalPreyStatuses;
+		return dueShare;
 		
 	}
 	
