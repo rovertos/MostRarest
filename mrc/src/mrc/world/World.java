@@ -27,7 +27,7 @@ public class World {
 		
 		theWild.print();
 		
-		for (int i=0; i<Global.RUN_TEST_STEPS; i++){
+		for (int i=0; i<100; i++){
 			
 			theWild.executeStep();
 			
