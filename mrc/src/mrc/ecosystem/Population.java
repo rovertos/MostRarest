@@ -68,37 +68,37 @@ public class Population extends Countable {
 			System.out.println("CALCULATING GROWTH FACTOR FOR " + this.getId());
 		}
 		
-		float growthFactor = 0;
+		float alreadyGiven = 0;
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
-			growthFactor += prey.giveDueShare(this);
+			alreadyGiven += prey.giveDueShare(this,alreadyGiven);
 			
 		}
 		
-		return growthFactor;
+		return alreadyGiven;
 				
 	}
 	
-	public float giveClaimForShare(Countable askingPrey){
+	public float giveClaimForShare(Countable askingPrey, float alreadyClaimed){
 		
 		if (Global.INLINE_LOGGING)
-			System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share");
+			System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share with alreadyClaimed: " + alreadyClaimed);
 		
-		float dueSharesFromOthers = 0;
+		float dueSharesFromOthers = alreadyClaimed;
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
 			if (!prey.getId().equals(askingPrey.getId()))
 			
-				dueSharesFromOthers += prey.giveDueShare(this);
+				dueSharesFromOthers += prey.giveDueShare(this,dueSharesFromOthers);
 			
 		}
 		
 		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + dueSharesFromOthers));
 		
 		if (Global.INLINE_LOGGING)
-			System.out.println(this.getId() + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId());
+			System.out.println(this.getId() + ":" + this.status + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId() + ":" + this.status);
 		
 		return claimedShare;
 		

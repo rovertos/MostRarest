@@ -69,7 +69,7 @@ public class Resource extends Countable {
 		
 	}
 	
-	public float giveClaimForShare(Countable countable){
+	public float giveClaimForShare(Countable countable, float alreadyClaimed){
 		
 		// NOTHING TO CLAIM
 		

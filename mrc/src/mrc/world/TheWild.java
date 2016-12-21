@@ -176,6 +176,8 @@ public class TheWild extends Ecosystem {
 			
 			Location location = Location.UNDER;
 			
+			int pindex = population.getSpecies().getIndex();
+			
 			if (population.getId().startsWith("b"))
 				
 				location = Location.SOUTH;
@@ -190,11 +192,11 @@ public class TheWild extends Ecosystem {
 			
 			else if (population.getId().startsWith("c")){
 				
-				if (population.getId().endsWith("0"))
+				if (pindex % 4 == 0)
 
 					location = Location.WEST;
 				
-				else if (population.getId().endsWith("2"))
+				else if (pindex % 4 == 2)
 					
 					location = Location.EAST;
 				

@@ -41,24 +41,38 @@ public abstract class Countable {
 		
 	}
 	
-	public float giveDueShare(Population askingPredator){
+	public float giveDueShare(Population askingPredator, float alreadyGiven){
 		
-		if (lastGivenShares.containsKey(askingPredator.getId())){
+		//if (lastGivenShares.containsKey(askingPredator.getId())){
 			
-			return lastGivenShares.get(askingPredator.getId()).floatValue();
+		//	return lastGivenShares.get(askingPredator.getId()).floatValue();
 			
-		} else {
+		//} else {
 		
 			if (Global.INLINE_LOGGING)
-				System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+				System.out.println(askingPredator.getId() + ":" + this.status + " asks for due share from " + this.getId() + ":" + this.status + " with alreadyGiven: " + alreadyGiven);
 			
-			float sharesClaimedByOthers = 0;
+			float sharesClaimedByOthers = alreadyGiven;
 			
 			for (Population predator: this.area.getPredators(this)){
 				
-				if (!predator.getId().equals(askingPredator.getId()))
+				if (!predator.getId().equals(askingPredator.getId())){
+					
+					//if (lastGivenShares.containsKey(predator.getId())){
+						
+					//	Float givenShare = lastGivenShares.get(predator.getId()).floatValue();
+						
+					//	System.out.println(predator.getId() + ":" + predator.status + " confirms given share " + givenShare + " from " + this.getId() + ":" + this.status);
+						
+					//	sharesClaimedByOthers += givenShare;
+						
+					//} else {
 				
-					sharesClaimedByOthers += predator.giveClaimForShare(this);
+						sharesClaimedByOthers += predator.giveClaimForShare(this, sharesClaimedByOthers);
+					
+					//}
+					
+				}
 				
 			}
 			
@@ -67,13 +81,13 @@ public abstract class Countable {
 			lastGivenShares.put(askingPredator.getId(), new Float(dueShare));
 			
 			if (Global.INLINE_LOGGING){
-				System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());			
+				System.out.println(this.getId() + ":" + this.status + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId() + ":" + this.status);			
 				System.out.println("");
 			}
 			
 			return dueShare;
 		
-		}
+		//}
 		
 	}	
 	
@@ -101,7 +115,7 @@ public abstract class Countable {
 		
 	}
 	
-	public abstract float giveClaimForShare(Countable countable);
+	public abstract float giveClaimForShare(Countable countable, float alreadyClaimed);
 	
 	public abstract String getId();
 	
@@ -180,5 +194,5 @@ public abstract class Countable {
 		return location;
 		
 	}
-	
+
 }
