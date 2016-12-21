@@ -21,6 +21,8 @@ public class Population extends Countable {
 
 	public void executeStep(StringBuffer buf) {
 		
+		System.out.println(this.getId() + " executeStep with status = " + this.status);		
+	
 		// TODO: STARVATION!
 
 		float growthFactor = this.getGrowthFactor();
@@ -50,22 +52,19 @@ public class Population extends Countable {
 				FantasyWildlifeFund.register(this);
 				
 			}
-
-		} 
+			
+			buf.append(this.getId() + ": " + oldStatus + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + " => " + this.status + ". ");
 		
-		buf.append(this.getId() + ": " + oldStatus + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + " => " + this.status + ". ");
+		}
 
 	}
 	
 	public float getGrowthFactor(){
 		
-		float growthFactor = 0;
+		System.out.println("********************************");		
+		System.out.println("CALCULATING GROWTH FACTOR FOR " + this.getId());
 		
-		for (Countable predator: this.area.getPredators(this)){
-			
-			growthFactor -= predator.getDueShare(this);
-			
-		}
+		float growthFactor = 0;
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
@@ -73,35 +72,39 @@ public class Population extends Countable {
 			
 		}
 		
-		return growthFactor;
-		
-	}
-	
-	public float giveDueShare(Population population){
-		
-		int totalPredatorStatuses = 0;
-		
-		for (Countable predator: this.area.getPredators(this)){
+		for (Population predator: this.area.getPredators(this)){
 			
-			totalPredatorStatuses += predator.getStatus();
+			Float share = lastGivenShares.get(predator.getId());
+			
+			growthFactor -= share.floatValue();
 			
 		}
 		
-		return (float)population.getStatus() * (float)this.status / (float)totalPredatorStatuses;
+		lastGivenShares.clear();
 		
+		return growthFactor;
+				
 	}
 	
-	public float getDueShare(Countable countable){
+	public float giveClaimForShare(Countable askingPrey){
 		
-		int totalPreyStatuses = 0;
+		System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share");
+		
+		float dueSharesFromOthers = 0;
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
-			totalPreyStatuses += prey.getStatus();
+			if (!prey.getId().equals(askingPrey.getId()))
+			
+				dueSharesFromOthers += prey.giveDueShare(this);
 			
 		}
 		
-		return (float)countable.getStatus() * (float)this.status / (float)totalPreyStatuses;
+		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + dueSharesFromOthers));
+		
+		System.out.println(this.getId() + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId());
+		
+		return claimedShare;
 		
 	}
 	

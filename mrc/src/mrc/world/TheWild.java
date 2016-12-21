@@ -168,7 +168,43 @@ public class TheWild extends Ecosystem {
 			
 			int unstablePopulationTotal = Integer.parseInt(Global.INSTABILITIES_IN_THE_WILD[i][1]);
 			
-			this.getPopulation(unstableSpeciesId).setStatus(unstablePopulationTotal);
+			Population population = this.getPopulation(unstableSpeciesId);
+			
+			population.setStatus(unstablePopulationTotal);
+			
+			// TEMP, TODO: REMOVE
+			
+			Location location = Location.UNDER;
+			
+			if (population.getId().startsWith("b"))
+				
+				location = Location.SOUTH;
+			
+			else if (population.getId().startsWith("d"))
+				
+				location = Location.NORTH;
+			
+			else if (population.getId().startsWith("e"))
+				
+				location = Location.OVER;
+			
+			else if (population.getId().startsWith("c")){
+				
+				if (population.getId().endsWith("0"))
+
+					location = Location.WEST;
+				
+				else if (population.getId().endsWith("2"))
+					
+					location = Location.EAST;
+				
+				else
+					
+					location = Location.INNER;
+				
+			}
+			
+			population.getArea().settlePopulation(location, population);
 			
 		}
 		

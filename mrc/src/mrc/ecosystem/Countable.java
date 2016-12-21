@@ -1,5 +1,7 @@
 package mrc.ecosystem;
 
+import java.util.HashMap;
+
 import mrc.geography.Area;
 import mrc.geography.Location;
 
@@ -20,6 +22,10 @@ public abstract class Countable {
 	
 	protected Area area;
 	
+	private Location location;
+	
+	protected HashMap<String,Float> lastGivenShares = new HashMap<String,Float>();
+	
 	public Countable(int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
 		
 		this.status = status;
@@ -34,11 +40,43 @@ public abstract class Countable {
 		
 	}
 	
+	public float giveDueShare(Population askingPredator){
+		
+		if (lastGivenShares.containsKey(askingPredator.getId())){
+			
+			return lastGivenShares.get(askingPredator.getId()).floatValue();
+			
+		} else {
+		
+			System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+			
+			float sharesClaimedByOthers = 0;
+			
+			for (Population predator: this.area.getPredators(this)){
+				
+				if (!predator.getId().equals(askingPredator.getId()))
+				
+					sharesClaimedByOthers += predator.giveClaimForShare(this);
+				
+			}
+			
+			float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + sharesClaimedByOthers));
+			
+			lastGivenShares.put(askingPredator.getId(), new Float(dueShare));
+			
+			System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
+			
+			System.out.println("");
+			
+			return dueShare;
+		
+		}
+		
+	}	
+	
 	public abstract float getGrowthFactor();
 	
-	public abstract float getDueShare(Countable countable);
-	
-	public abstract float giveDueShare(Population population);
+	public abstract float giveClaimForShare(Countable countable);
 	
 	public abstract String getId();
 	
@@ -103,6 +141,18 @@ public abstract class Countable {
 		int steps = remain <= Math.abs(growthThisStep) ? 1 : (int)Math.ceil(remain / growthThisStep);
 		
 		return positive ? steps : -steps;
+		
+	}
+
+	public Area getArea() {
+		
+		return area;
+		
+	}
+
+	public Location getLocation() {
+		
+		return location;
 		
 	}
 	
