@@ -8,6 +8,8 @@ import mrc.world.FantasyWildlifeFund;
 public class Population extends Countable {
 	
 	private Species species;
+	
+	private Diet diet;
 		
 	public Population(Species species, int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
 		
@@ -21,9 +23,7 @@ public class Population extends Countable {
 
 	public void executeStep(StringBuffer buf) {
 		
-		System.out.println(this.getId() + " executeStep with status = " + this.status);		
-	
-		// TODO: STARVATION!
+		// TODO: STARVATION!		
 
 		float growthFactor = this.getGrowthFactor();
 		
@@ -61,44 +61,45 @@ public class Population extends Countable {
 
 	}
 	
+	public Diet getDiet() {
+		
+		return diet;
+		
+	}
+
 	public float getGrowthFactor(){
 		
-		if (Global.INLINE_LOGGING){
-			System.out.println("********************************");		
-			System.out.println("CALCULATING GROWTH FACTOR FOR " + this.getId());
-		}
+		// TODO: appetite
 		
-		float alreadyGiven = 0;
+		diet = new Diet(5, this.status);
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
-			alreadyGiven += prey.giveDueShare(this,alreadyGiven);
+			float dueShare = prey.giveDueShare(this);
+			
+			diet.addShare(prey.getId(), dueShare);
 			
 		}
 		
-		return alreadyGiven;
+		diet.normalizeShares();
+		
+		return diet.getGrowthFactor();
 				
 	}
 	
-	public float giveClaimForShare(Countable askingPrey, float alreadyClaimed){
+	public float giveClaimForShare(Countable askingPrey){
 		
-		if (Global.INLINE_LOGGING)
-			System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share with alreadyClaimed: " + alreadyClaimed);
-		
-		float dueSharesFromOthers = alreadyClaimed;
+		float dueSharesFromOthers = 0;
 		
 		for (Countable prey: this.area.getDiet(this)){
 			
 			if (!prey.getId().equals(askingPrey.getId()))
 			
-				dueSharesFromOthers += prey.giveDueShare(this,dueSharesFromOthers);
+				dueSharesFromOthers += prey.giveDueShare(this);
 			
 		}
 		
 		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + dueSharesFromOthers));
-		
-		if (Global.INLINE_LOGGING)
-			System.out.println(this.getId() + ":" + this.status + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId() + ":" + this.status);
 		
 		return claimedShare;
 		
@@ -115,11 +116,5 @@ public class Population extends Countable {
 		return species;
 		
 	}
-	
-	public int getAvailableFoods(){
-		
-		return area.getDiet(this).size();
-		
-	}	
 	
 }

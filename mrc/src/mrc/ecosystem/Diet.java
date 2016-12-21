@@ -1,42 +1,86 @@
 package mrc.ecosystem;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Diet {
 
-	private List<Prey> preys;
+	private HashMap<String, Share> shares;
 	
 	private int appetite;
+	
+	private float growthFactor;
 	
 	public Diet(int appetite, int predatorStatus){
 		
 		this.appetite = appetite;
 		
-		this.preys = new ArrayList<Prey>();
+		this.shares = new HashMap<String, Share>();
 		
 	}
 	
-	public void addPrey(Countable countable, float dueShare){
+	public void addShare(String preyId, float shareValue){
 		
-		Prey prey = new Prey();
+		Share share = new Share();
 		
-		prey.setCountable(countable);
+		share.setValue(shareValue);
 		
-		prey.setDueShare(dueShare);
+		shares.put(preyId, share);
+		
+	}
+	
+	public void normalizeShares(){
+		
+		float totalShareValue = 0;
+		
+		Iterator<String> iter = shares.keySet().iterator();
+		
+		ArrayList<Share> sharesList = new ArrayList<Share>();
+		
+		while (iter.hasNext()){
+			
+			Share share = shares.get(iter.next());
+			
+			totalShareValue += share.getValue();
+			
+			sharesList.add(share);
+			
+		}
+		
+		for (Share share: sharesList){
+			
+			float normalizedShare = share.getValue() * (share.getValue() / totalShareValue);
+			
+			share.setValue(normalizedShare);
+			
+			this.growthFactor += normalizedShare;
+			
+		}
+		
+	}	
+
+	public float getGrowthFactor() {
+		
+		return growthFactor;
+		
+	}
+
+	public float getShareValue(String preyId){
+		
+		if (shares.containsKey(preyId))
+					
+			return shares.get(preyId).getValue();
+		
+		else
+			
+			return 0;
 		
 	}
 	
 	public void resolveHuntIntensities(int predatorStatus){
 		
-		Collections.sort(preys);
-		
-		for (Prey prey: preys){
-			
-			
-			
-		}
+		//
 		
 	}
 	
@@ -52,27 +96,15 @@ public class Diet {
 		
 	}
 
-	public class Prey implements Comparable<Prey>{
+	public class Share implements Comparable<Share>{
 		
 		// preference: 1-3
 		private int huntIntensity;
 		
-		private float dueShare;
+		private float value;
 		
-		private Countable countable;
+		private boolean normalized;
 		
-		public Countable getCountable() {
-			
-			return countable;
-			
-		}
-
-		public void setCountable(Countable countable) {
-			
-			this.countable = countable;
-			
-		}
-
 		public int getHuntIntensity() {
 			
 			return huntIntensity;
@@ -85,22 +117,34 @@ public class Diet {
 			
 		}
 
-		public float getDueShare() {
+		public float getValue() {
 			
-			return this.dueShare;
+			return this.value;
 			
 		}
 
-		public void setDueShare(float dueShare) {
+		public void setValue(float value) {
 			
-			this.dueShare = dueShare;
+			this.value = value;
+			
+		}		
+
+		public boolean isNormalized() {
+			
+			return normalized;
+			
+		}
+
+		public void setNormalized(boolean normalized) {
+			
+			this.normalized = normalized;
 			
 		}
 
 		@Override
-		public int compareTo(Prey other) {
+		public int compareTo(Share other) {
 			
-			if ((this.dueShare * (float)this.getCountable().getStatus()) >= (other.getDueShare() * (float)other.getCountable().getStatus()))
+			if (this.value > other.getValue())
 				
 				return 1;
 				

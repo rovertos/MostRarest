@@ -1,8 +1,5 @@
 package mrc.ecosystem;
 
-import java.util.HashMap;
-
-import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
 
@@ -25,8 +22,6 @@ public abstract class Countable {
 	
 	private Location location;
 	
-	protected HashMap<String,Float> lastGivenShares = new HashMap<String,Float>();
-	
 	public Countable(int status, Area area, Location location, float growthThreshold, int carryingCapacityFactor){
 		
 		this.status = status;
@@ -41,53 +36,23 @@ public abstract class Countable {
 		
 	}
 	
-	public float giveDueShare(Population askingPredator, float alreadyGiven){
+	public float giveDueShare(Population askingPredator){
 		
-		//if (lastGivenShares.containsKey(askingPredator.getId())){
-			
-		//	return lastGivenShares.get(askingPredator.getId()).floatValue();
-			
-		//} else {
+		float sharesClaimedByOthers = 0;
 		
-			if (Global.INLINE_LOGGING)
-				System.out.println(askingPredator.getId() + ":" + this.status + " asks for due share from " + this.getId() + ":" + this.status + " with alreadyGiven: " + alreadyGiven);
+		for (Population predator: this.area.getPredators(this)){
 			
-			float sharesClaimedByOthers = alreadyGiven;
-			
-			for (Population predator: this.area.getPredators(this)){
+			if (!predator.getId().equals(askingPredator.getId())){
 				
-				if (!predator.getId().equals(askingPredator.getId())){
-					
-					//if (lastGivenShares.containsKey(predator.getId())){
-						
-					//	Float givenShare = lastGivenShares.get(predator.getId()).floatValue();
-						
-					//	System.out.println(predator.getId() + ":" + predator.status + " confirms given share " + givenShare + " from " + this.getId() + ":" + this.status);
-						
-					//	sharesClaimedByOthers += givenShare;
-						
-					//} else {
-				
-						sharesClaimedByOthers += predator.giveClaimForShare(this, sharesClaimedByOthers);
-					
-					//}
-					
-				}
+					sharesClaimedByOthers += predator.giveClaimForShare(this);
 				
 			}
 			
-			float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + sharesClaimedByOthers));
-			
-			lastGivenShares.put(askingPredator.getId(), new Float(dueShare));
-			
-			if (Global.INLINE_LOGGING){
-				System.out.println(this.getId() + ":" + this.status + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId() + ":" + this.status);			
-				System.out.println("");
-			}
-			
-			return dueShare;
+		}
 		
-		//}
+		float dueShare = (float)askingPredator.status * ((float)this.status / ((float)askingPredator.status + sharesClaimedByOthers));
+					
+		return dueShare;
 		
 	}	
 	
@@ -99,23 +64,15 @@ public abstract class Countable {
 		
 		for (Population predator: this.area.getPredators(this)){
 			
-			if (lastGivenShares.containsKey(predator.getId())){
-			
-				Float share = lastGivenShares.get(predator.getId());			
-				
-				perishFactor -= share.floatValue();
-			
-			}
+			perishFactor -= predator.getDiet().getShareValue(this.getId());
 			
 		}
-		
-		lastGivenShares.clear();
 		
 		return perishFactor;
 		
 	}
 	
-	public abstract float giveClaimForShare(Countable countable, float alreadyClaimed);
+	public abstract float giveClaimForShare(Countable countable);
 	
 	public abstract String getId();
 	

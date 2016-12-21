@@ -167,7 +167,7 @@ public class Ecosystem {
 				
 		Logger log = new Logger();
 		
-		log.setTabLength(15);
+		log.setTabLength(20);
 		
 		String separator = log.getSeparator(" ", "-", 23);
 		

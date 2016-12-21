@@ -3,7 +3,6 @@ package mrc.ecosystem;
 import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
-import mrc.world.FantasyWildlifeFund;
 
 public class Resource extends Countable {
 
@@ -69,7 +68,7 @@ public class Resource extends Countable {
 		
 	}
 	
-	public float giveClaimForShare(Countable countable, float alreadyClaimed){
+	public float giveClaimForShare(Countable countable){
 		
 		// NOTHING TO CLAIM
 		
