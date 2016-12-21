@@ -10,7 +10,7 @@ public class Diet {
 	
 	private int appetite;
 	
-	private float growthFactor;
+	private float totalNormalized;
 	
 	public Diet(int appetite, int predatorStatus){
 		
@@ -54,15 +54,15 @@ public class Diet {
 			
 			share.setValue(normalizedShare);
 			
-			this.growthFactor += normalizedShare;
+			this.totalNormalized += normalizedShare;
 			
 		}
 		
 	}	
 
-	public float getGrowthFactor() {
+	public float getTotalNormalized() {
 		
-		return growthFactor;
+		return totalNormalized;
 		
 	}
 

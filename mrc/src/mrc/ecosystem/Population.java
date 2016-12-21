@@ -83,7 +83,9 @@ public class Population extends Countable {
 		
 		diet.normalizeShares();
 		
-		return diet.getGrowthFactor();
+		float totalNormalized = diet.getTotalNormalized();
+		
+		return totalNormalized;
 				
 	}
 	
