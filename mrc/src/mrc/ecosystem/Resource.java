@@ -24,8 +24,10 @@ public class Resource extends Countable {
 	public void executeStep(StringBuffer buf) {
 
 		float growthFactor = this.getGrowthFactor();
+		
+		float perishFactor = this.getPerishFactor();
 
-		growthThisStep = growthFactor * status;
+		growthThisStep = (growthFactor + perishFactor);
 
 		accumulatedGrowth += growthThisStep;
 		
@@ -61,19 +63,9 @@ public class Resource extends Countable {
 	
 	public float getGrowthFactor(){
 		
-		float growthFactor = 0;
+		// HEALING, NOT GROWING
 		
-		for (Population predator: this.area.getPredators(this)){
-			
-			Float share = lastGivenShares.get(predator.getId());
-			
-			growthFactor -= share.floatValue();
-			
-		}
-		
-		lastGivenShares.clear();
-		
-		return growthFactor;
+		return 0;
 		
 	}
 	

@@ -27,9 +27,11 @@ public class Population extends Countable {
 
 		float growthFactor = this.getGrowthFactor();
 		
+		float perishFactor = this.getPerishFactor();
+		
 		int oldStatus = this.status;
 
-		growthThisStep = growthFactor * status;
+		growthThisStep = (growthFactor + perishFactor);
 
 		accumulatedGrowth += growthThisStep;
 
@@ -61,8 +63,10 @@ public class Population extends Countable {
 	
 	public float getGrowthFactor(){
 		
-		System.out.println("********************************");		
-		System.out.println("CALCULATING GROWTH FACTOR FOR " + this.getId());
+		if (Global.INLINE_LOGGING){
+			System.out.println("********************************");		
+			System.out.println("CALCULATING GROWTH FACTOR FOR " + this.getId());
+		}
 		
 		float growthFactor = 0;
 		
@@ -72,23 +76,14 @@ public class Population extends Countable {
 			
 		}
 		
-		for (Population predator: this.area.getPredators(this)){
-			
-			Float share = lastGivenShares.get(predator.getId());
-			
-			growthFactor -= share.floatValue();
-			
-		}
-		
-		lastGivenShares.clear();
-		
 		return growthFactor;
 				
 	}
 	
 	public float giveClaimForShare(Countable askingPrey){
 		
-		System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share");
+		if (Global.INLINE_LOGGING)
+			System.out.println(askingPrey.getId() + " asks " + this.getId() + " to claim its share");
 		
 		float dueSharesFromOthers = 0;
 		
@@ -102,7 +97,8 @@ public class Population extends Countable {
 		
 		float claimedShare = (float)this.status * ((float)askingPrey.status / ((float)askingPrey.status + dueSharesFromOthers));
 		
-		System.out.println(this.getId() + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId());
+		if (Global.INLINE_LOGGING)
+			System.out.println(this.getId() + " claims share " + claimedShare + " from askingPrey " + askingPrey.getId());
 		
 		return claimedShare;
 		

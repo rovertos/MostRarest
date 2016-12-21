@@ -2,6 +2,7 @@ package mrc.ecosystem;
 
 import java.util.HashMap;
 
+import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
 
@@ -48,7 +49,8 @@ public abstract class Countable {
 			
 		} else {
 		
-			System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
+			if (Global.INLINE_LOGGING)
+				System.out.println(askingPredator.getId() + " asks for due share from " + this.getId());
 			
 			float sharesClaimedByOthers = 0;
 			
@@ -64,9 +66,10 @@ public abstract class Countable {
 			
 			lastGivenShares.put(askingPredator.getId(), new Float(dueShare));
 			
-			System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());
-			
-			System.out.println("");
+			if (Global.INLINE_LOGGING){
+				System.out.println(this.getId() + " gives due share " + dueShare + " to askingPredator " + askingPredator.getId());			
+				System.out.println("");
+			}
 			
 			return dueShare;
 		
@@ -75,6 +78,28 @@ public abstract class Countable {
 	}	
 	
 	public abstract float getGrowthFactor();
+	
+	public float getPerishFactor(){
+		
+		float perishFactor = 0;
+		
+		for (Population predator: this.area.getPredators(this)){
+			
+			if (lastGivenShares.containsKey(predator.getId())){
+			
+				Float share = lastGivenShares.get(predator.getId());			
+				
+				perishFactor -= share.floatValue();
+			
+			}
+			
+		}
+		
+		lastGivenShares.clear();
+		
+		return perishFactor;
+		
+	}
 	
 	public abstract float giveClaimForShare(Countable countable);
 	
