@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import mrc.config.Global;
+import mrc.config.ActiveConfig;
 import mrc.ecosystem.FantasyPark;
 import mrc.json.FactoryJSON;
 import mrc.json.MrcResponseJSON;
@@ -12,6 +13,7 @@ import mrc.player.Human;
 import mrc.player.Order;
 import mrc.player.Player;
 import mrc.player.Robot;
+import mrc.util.Logger;
 
 public class World {
 
@@ -20,18 +22,22 @@ public class World {
 	public static TheWild theWild;
 	
 	public static void create(List<Robot> robots, List<Human> humans){
-		
+				
 		theWild = new TheWild();
 		
 		theWild.genesis();
 		
-		theWild.print();
+		Logger logger = new Logger();
+		
+		logger.setTabLength(30);
+		
+		logger.print(theWild);
 		
 		for (int i=0; i<Global.RUN_TEST_STEPS; i++){
 			
 			theWild.executeStep();
 			
-			theWild.print();
+			logger.print(theWild);
 			
 		}
 		
@@ -65,6 +71,8 @@ public class World {
 	
 	
 	public static void main(String[] args) {
+		
+		ActiveConfig.initialize();
 		
 		ArrayList<Robot> robots = new ArrayList<Robot>();
 		

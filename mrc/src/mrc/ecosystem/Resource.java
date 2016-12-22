@@ -20,7 +20,7 @@ public class Resource extends Countable {
 		
 	}
 	
-	public void executeStep(StringBuffer buf) {
+	public void executeStep() {
 
 		float growthFactor = this.getGrowthFactor();
 		
@@ -30,11 +30,9 @@ public class Resource extends Countable {
 
 		accumulatedGrowth += growthThisStep;
 		
-		buf.append(this.getId() + ": " + status + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + ". ");
-
 	}	
 	
-	public void heal(float healAmount, StringBuffer buf){
+	public void heal(float healAmount){
 		
 		accumulatedGrowth += healAmount;
 		
@@ -56,7 +54,11 @@ public class Resource extends Countable {
 
 		}
 		
-		buf.append(this.getId() + ": +" + Global.formatter.format(healAmount) + " => " + this.status + ". ");
+	}
+	
+	public String getGrowthLog(){
+		
+		return "";
 		
 	}
 	

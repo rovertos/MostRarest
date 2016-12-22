@@ -1,5 +1,6 @@
 package mrc.ecosystem;
 
+import mrc.config.Global;
 import mrc.geography.Area;
 import mrc.geography.Location;
 
@@ -69,6 +70,24 @@ public abstract class Countable {
 		}
 		
 		return perishFactor;
+		
+	}
+	
+	public abstract String getGrowthLog();	
+	
+	public String getPerishLog(){
+		
+		StringBuffer buf = new StringBuffer();
+		
+		for (Population predator: this.area.getPredators(this)){
+			
+			buf.append(predator.getId() + "<" + Global.formatter.format(predator.getDiet().getShareValue(this.getId())) + ",");
+			
+		}
+		
+		String log = buf.length() > 1 ? buf.substring(0, buf.length()-1) : ".";
+		
+		return log;		
 		
 	}
 	

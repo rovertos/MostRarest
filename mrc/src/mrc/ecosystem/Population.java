@@ -1,6 +1,12 @@
 package mrc.ecosystem;
 
+import java.util.Iterator;
+
+import mrc.config.ActiveConfig;
+import mrc.config.AutoBalancer;
 import mrc.config.Global;
+import mrc.config.MrcConfig;
+import mrc.ecosystem.Diet.Share;
 import mrc.geography.Area;
 import mrc.geography.Location;
 import mrc.world.FantasyWildlifeFund;
@@ -21,7 +27,7 @@ public class Population extends Countable {
 		
 	}
 
-	public void executeStep(StringBuffer buf) {
+	public void executeStep() {
 		
 		// TODO: STARVATION!		
 
@@ -31,11 +37,25 @@ public class Population extends Countable {
 		
 		int oldStatus = this.status;
 
-		growthThisStep = (growthFactor + perishFactor);
+		growthThisStep = (growthFactor - status + perishFactor);
 
 		accumulatedGrowth += growthThisStep;
-
+		
 		if (Math.abs(accumulatedGrowth) > growthThreshold) {
+			
+			// AUTOBALANCING START...
+			
+			if (accumulatedGrowth > 0 && status > (Integer.parseInt(Global.NEW_SPAWN_STATUSES[this.getSpecies().getLevel()]) * 3)){
+				
+				AutoBalancer.reportOvergrowth(this);
+				
+			} else if (accumulatedGrowth < 0 && status == 1){
+				
+				AutoBalancer.reportExtinction(this);
+				
+			}
+			
+			// ...AUTOBALANCING END
 
 			if (accumulatedGrowth > 0 && status < 5) {
 
@@ -55,8 +75,6 @@ public class Population extends Countable {
 				
 			}
 			
-			buf.append(this.getId() + ": " + oldStatus + "[" + Global.formatter.format(growthFactor) + "] => " + Global.formatter.format(growthThisStep) + " + " + Global.formatter.format(accumulatedGrowth) + " => " + this.status + ". ");
-		
 		}
 
 	}
@@ -77,7 +95,7 @@ public class Population extends Countable {
 			
 			float dueShare = prey.giveDueShare(this);
 			
-			diet.addShare(prey.getId(), dueShare);
+			diet.addShare(prey.getId(), dueShare, false);
 			
 		}
 		
@@ -106,6 +124,28 @@ public class Population extends Countable {
 		return claimedShare;
 		
 	}
+	
+	public String getGrowthLog(){
+		
+		StringBuffer buf = new StringBuffer();
+		
+		Iterator<String> iter = diet.getShares().keySet().iterator();
+		
+		while(iter.hasNext()){
+			
+			String preyId = iter.next();
+			
+			Share share = diet.getShares().get(preyId);
+			
+			buf.append(preyId + ">" + Global.formatter.format(share.getValue()) + ",");
+			
+		}
+		
+		String log = buf.length() > 1 ? buf.substring(0, buf.length()-1) : ".";
+		
+		return log;
+		
+	}	
 	
 	public String getId(){
 		
