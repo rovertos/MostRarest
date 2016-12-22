@@ -10,11 +10,11 @@ public class Global {
 	
 	// TEST POPULATIONS
 	
-	public static int RUN_TEST_STEPS = 0;
+	public static int RUN_TEST_STEPS = 100;
 	
 	public static int THE_WILD_CARRYING_CAPACITY_FACTOR = 1;
 	
-	public static String[] NEW_SPAWN_STATUSES = 	{"2",	"0",	"0",	"0",	"0"};
+	public static String[] NEW_SPAWN_STATUSES = 	{"3",	"0",	"0",	"0",	"0"};
 	
 	public static String[] GROWTH_THRESHOLDS = 		{"10",	"10",	"15",	"20",	"30"};
 	
@@ -22,7 +22,7 @@ public class Global {
 	
 	//public static String[][] INSTABILITIES_IN_THE_WILD = {};
 	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"b0","10"},{"c2","10"},{"b1","10"}};
-	public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","10"},{"c2","10"},{"b0","10"},{"b1","10"}};
+	public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","3"},{"c2","3"},{"b0","4"},{"b1","4"}};
 	//public static String[][] INSTABILITIES_IN_THE_WILD = {{"c0","10"},{"c2","10"},{"c3","10"},{"c4","10"},{"c6","10"},{"b0","10"},{"b1","10"},{"b2","10"}};
 	
 	public static String[] AREAS_LVL_0 = {"1","3","5"};
