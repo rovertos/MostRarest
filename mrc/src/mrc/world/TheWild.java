@@ -3,6 +3,7 @@ package mrc.world;
 import java.util.HashMap;
 
 import mrc.config.Global;
+import mrc.config.ActiveConfig;
 import mrc.ecosystem.Carnivore;
 import mrc.ecosystem.Ecosystem;
 import mrc.ecosystem.Herbivore;
@@ -28,9 +29,9 @@ public class TheWild extends Ecosystem {
 		
 		// Hebivores at Lvl 1
 		
-		int status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[1]);
+		int status = ActiveConfig.getPopStatus(1);
 		
-		float growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[1]);
+		float growthThreshold = ActiveConfig.getGrowthThreshold(1);
 		
 		int index = 0;
 		
@@ -58,9 +59,9 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 2
 		
-		status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[2]);
+		status = ActiveConfig.getPopStatus(2);
 		
-		growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[2]);
+		growthThreshold = ActiveConfig.getGrowthThreshold(2);
 		
 		index = 0;	
 		
@@ -102,9 +103,9 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 3
 		
-		status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[3]);
+		status = ActiveConfig.getPopStatus(3);
 		
-		growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[3]);
+		growthThreshold = ActiveConfig.getGrowthThreshold(3);
 		
 		index = 0;	
 		
@@ -132,9 +133,9 @@ public class TheWild extends Ecosystem {
 		
 		// Carnivores at Lvl 4
 		
-		status = Integer.parseInt(Global.NEW_SPAWN_STATUSES[4]);
+		status = ActiveConfig.getPopStatus(4);
 		
-		growthThreshold = Float.parseFloat(Global.GROWTH_THRESHOLDS[4]);
+		growthThreshold = ActiveConfig.getGrowthThreshold(4);
 		
 		index = 0;			
 		
@@ -172,7 +173,7 @@ public class TheWild extends Ecosystem {
 			
 			population.setStatus(unstablePopulationTotal);
 			
-			// TEMP, TODO: REMOVE
+			// POPULATION WITH 0 STARTING VALUE IS NOT SETTLED, TODO: IMPROVE
 			
 			Location location = Location.UNDER;
 			

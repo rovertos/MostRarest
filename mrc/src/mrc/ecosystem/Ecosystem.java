@@ -79,8 +79,6 @@ public class Ecosystem {
 				
 		for (int i=Global.LEVELS.length-1; i>0; i--){
 
-			StringBuffer buf = new StringBuffer();
-			
 			int pops = Integer.parseInt(Global.POPS_PER_LEVEL[i]);
 			
 			for (int j=0; j<pops; j++){
@@ -89,21 +87,17 @@ public class Ecosystem {
 								
 				Population population = populations.get(id);
 				
-				population.executeStep(buf);
+				population.executeStep();
 				
 			}
-			
-			System.out.println(buf.toString());
 			
 		}
 		
 		// Then, Resources heal
 		
-		StringBuffer buf = new StringBuffer();
-		
 		for (Resource resource: resources){
 			
-			resource.executeStep(buf);
+			resource.executeStep();
 			
 		}
 		
@@ -117,11 +111,9 @@ public class Ecosystem {
 		
 		for (Resource resource: resources){
 			
-			resource.heal(-1 * totalGrowthThisStep / 3, buf);
+			resource.heal(-1 * totalGrowthThisStep / 3);
 			
 		}
-		
-		System.out.println(buf.toString());
 		
 	}
 	
@@ -155,101 +147,17 @@ public class Ecosystem {
 			
 			return null;
 		
+	}	
+	
+	public List<Area> getAreas() {
+		
+		return areas;
+
 	}
 
 	public Population getPopulation(String id){
 		
 		return populations.get(id);
-		
-	}
-	
-	public void print(){
-				
-		Logger log = new Logger();
-		
-		log.setTabLength(20);
-		
-		String separator = log.getSeparator(" ", "-", 23);
-		
-		System.out.println(separator);
-		
-		System.out.println("");
-		
-		StringBuffer buf = new StringBuffer();
-		
-		// System.getProperty("line.separator")
-		
-		buf.append(log.getPrettyPrint("OVER:"));
-		
-		for (int i=0; i<this.areas.size(); i++){
-			
-			buf.append(log.getPrettyPrint(""));
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.OVER));
-			
-			buf.append(log.getPrettyPrint(""));
-			
-		}
-		
-		buf.append(System.getProperty("line.separator"));
-		
-		buf.append(log.getPrettyPrint("NORTH:"));
-		
-		for (int i=0; i<this.areas.size(); i++){
-			
-			buf.append(log.getPrettyPrint(""));
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.NORTH));
-			
-			buf.append(log.getPrettyPrint(""));
-			
-		}		
-		
-		buf.append(System.getProperty("line.separator"));
-		
-		buf.append(log.getPrettyPrint("W/IN/E:"));
-		
-		for (int i=0; i<this.areas.size(); i++){
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.WEST));
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.INNER));
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.EAST));
-			
-		}
-		
-		buf.append(System.getProperty("line.separator"));
-		
-		buf.append(log.getPrettyPrint("SOUTH:"));
-		
-		for (int i=0; i<this.areas.size(); i++){
-			
-			buf.append(log.getPrettyPrint(""));
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.SOUTH));
-			
-			buf.append(log.getPrettyPrint(""));
-			
-		}
-		
-		buf.append(System.getProperty("line.separator"));
-		
-		buf.append(log.getPrettyPrint("UNDER:"));
-		
-		for (int i=0; i<this.areas.size(); i++){
-			
-			buf.append(log.getPrettyPrint(""));
-			
-			buf.append(log.getPrettyPrint(areas.get(i), Location.UNDER));
-			
-			buf.append(log.getPrettyPrint(""));
-			
-		}
-		
-		System.out.println(buf.toString());
-		
-		System.out.println(separator);
 		
 	}
 	

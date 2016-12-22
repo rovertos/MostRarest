@@ -20,17 +20,21 @@ public class Diet {
 		
 	}
 	
-	public void addShare(String preyId, float shareValue){
+	public void addShare(String preyId, float shareValue, boolean normalized){
 		
 		Share share = new Share();
 		
 		share.setValue(shareValue);
+		
+		share.setNormalized(normalized);
 		
 		shares.put(preyId, share);
 		
 	}
 	
 	public void normalizeShares(){
+		
+		this.totalNormalized = 0;
 		
 		float totalShareValue = 0;
 		
@@ -50,11 +54,21 @@ public class Diet {
 		
 		for (Share share: sharesList){
 			
-			float normalizedShare = share.getValue() * (share.getValue() / totalShareValue);
-			
-			share.setValue(normalizedShare);
-			
-			this.totalNormalized += normalizedShare;
+			if (!share.isNormalized()){
+				
+				float normalizedShare = share.getValue() * (share.getValue() / totalShareValue);
+				
+				share.setValue(normalizedShare);
+				
+				share.setNormalized(true);
+				
+				this.totalNormalized += normalizedShare;
+				
+			} else {
+				
+				this.totalNormalized += share.getValue();
+				
+			}
 			
 		}
 		
@@ -93,6 +107,12 @@ public class Diet {
 	public void setAppetite(int appetite) {
 		
 		this.appetite = appetite;
+		
+	}	
+
+	public HashMap<String, Share> getShares() {
+		
+		return shares;
 		
 	}
 
